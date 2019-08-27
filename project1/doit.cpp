@@ -7,6 +7,7 @@ using namespace std;
 #include <sys/wait.h>
 #include <string.h>
 #include <vector>
+#include <unistd.h>
 
 
 typedef struct {
@@ -16,17 +17,19 @@ typedef struct {
 } process; 
 
 char *prompt = (char *)malloc(16 * sizeof(char));
+int ampersand = 0; //if process in running in background
 vector<process> children; //vector to dynamically allocade
 
 void printStats(long startTime){ //start time in ms
     struct rusage usage;
     struct timeval processEnd, userEnd, systemEnd;
-    gettimeofday(RUSAGE_CHILDREN, &processEnd)
+    gettimeofday(&processEnd, NULL);
     long endTime = (processEnd.tv_sec * 1000) + (processEnd.tv_sec / 1000);
+    getrusage(RUSAGE_CHILDREN, &usage);
     userEnd = usage.ru_utime;
     systemEnd = usage.ru_stime;
-    double userEndTime = (userEndTime.tv_sec * 1000) + (userEndTime.tv_sec / 1000);
-    double systemEndTime = (systemEndTime.tvSec * 1000) + (systemEndTime.tv_sec / 1000);
+    double userEndTime = (userEnd.tv_sec * 1000) + (userEnd.tv_sec / 1000);
+    double systemEndTime = (systemEnd.tv_sec * 1000) + (systemEnd.tv_sec / 1000);
     double wallClockTime = endTime - startTime;
     cout << "System Statistics For Process:/n";
     cout << "/tUser CPU Time: " << userEndTime << " milliseconds";
@@ -51,7 +54,7 @@ int run (char ** inputArgs)
         exit(1);
     }
     else if(pid == 0) { //child process
-        if(execvp(inputArgs[0], iinputArgs) < 0){ //execution error
+        if(execvp(inputArgs[0], inputArgs) < 0){ //execution error
             cerr << "EXECUTION ERROR\n";
             exit(1);
         }
@@ -67,7 +70,7 @@ int run (char ** inputArgs)
         else {
             process child = {pid, inputArgs[0], startTime};
             children.push_back(child);
-            cout << "[" << children.size() << "] " << children.back().pid << endl
+            cout << "[" << children.size() << "] " << children.back().pid << endl;
             return 0;
         }
     }
@@ -75,13 +78,14 @@ int run (char ** inputArgs)
 }
 
 int main(int argc, char *argv[]){
-    char ** newArgs = (char *)malloc(16 * sizeOf(char));
+    char ** newArgs = (char **)malloc(16 * sizeof(char));
+    int i;
     
     for(i = 1; i < argc; i++){
         newArgs[i - 1] = argv[i];
     }
     newArgs[argc - 1] = NULL;
-    execute(newArgs);
+    run(newArgs);
 }
 
 
