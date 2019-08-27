@@ -17,7 +17,6 @@ typedef struct {
     long start;
 } process; 
 
-char *prompt = (char *)malloc(16 * sizeof(char));
 int ampersand = 0; //if process in running in background
 vector<process> children; //vector to dynamically allocade
 
@@ -33,9 +32,9 @@ void printStats(long startTime){ //start time in ms
     double systemEndTime = (systemEnd.tv_sec * 1000) + (systemEnd.tv_sec / 1000);
     double wallClockTime = endTime - startTime;
     cout << "System Statistics For Process:/n";
-    cout << "/tUser CPU Time: " << userEndTime << " milliseconds";
-    cout << "/tSystem CPU Time: " << systemEndTime << " milliseconds";
-    cout << "/tWall Clock Time: " << wallClockTime << " milliseconds";
+    cout << "/tUser CPU Time: " << userEndTime << " milliseconds\n";
+    cout << "/tSystem CPU Time: " << systemEndTime << " milliseconds\n";
+    cout << "/tWall Clock Time: " << wallClockTime << " milliseconds\n";
 }
 
 int run (char ** inputArgs)
