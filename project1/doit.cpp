@@ -8,6 +8,7 @@ using namespace std;
 #include <string.h>
 #include <vector>
 #include <unistd.h>
+#include <stdlib.h>
 
 
 typedef struct {
