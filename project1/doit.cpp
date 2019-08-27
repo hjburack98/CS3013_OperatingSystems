@@ -32,9 +32,9 @@ void printStats(long startTime){ //start time in ms
     double systemEndTime = (systemEnd.tv_sec * 1000) + (systemEnd.tv_sec / 1000);
     double wallClockTime = endTime - startTime;
     cout << "System Statistics For Process:/n";
-    cout << "/tUser CPU Time: " << userEndTime << " milliseconds\n";
-    cout << "/tSystem CPU Time: " << systemEndTime << " milliseconds\n";
-    cout << "/tWall Clock Time: " << wallClockTime << " milliseconds\n";
+    cout << "     User CPU Time: " << userEndTime << " milliseconds\n";
+    cout << "     System CPU Time: " << systemEndTime << " milliseconds\n";
+    cout << "     Wall Clock Time: " << wallClockTime << " milliseconds\n";
 }
 
 int run (char ** inputArgs)
