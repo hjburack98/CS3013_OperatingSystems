@@ -16,7 +16,7 @@ typedef struct {
     long start;
 } process; 
 
-char *prompt = (char *)malloc(16 * sizeof(char));
+char *prompt = (char *)malloc(16 * sizeof(char *));
 int ampersand = 0; //if process in running in background
 vector<process> children; //vector to dynamically allocade
 
@@ -78,7 +78,7 @@ int run (char ** inputArgs)
 }
 
 int main(int argc, char *argv[]){
-    char ** newArgs = (char **)malloc(16 * sizeof(char));
+    char ** newArgs = (char **)malloc(16 * sizeof(char **));
     int i;
     
     for(i = 1; i < argc; i++){
