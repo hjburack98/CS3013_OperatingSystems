@@ -37,6 +37,7 @@ void printStats(long startTime){ //start time in ms
     cout << "     Wall Clock Time: " << wallClockTime << " milliseconds\n";
 }
 
+
 int run (char ** inputArgs)
 {
     int pid;
