@@ -23,14 +23,20 @@ vector<process> children; //vector to dynamically allocade
 void printStats(long startTime){ //start time in ms
     struct rusage usage;
     struct timeval processEnd, userEnd, systemEnd;
+
+    //set the end time
     gettimeofday(&processEnd, NULL);
     long endTime = ((processEnd.tv_usec / 1000));
+
+    //get all data for stats
     getrusage(RUSAGE_CHILDREN, &usage);
     userEnd = usage.ru_utime;
     systemEnd = usage.ru_stime;
     double userEndTime = ((userEnd.tv_usec / 1000));
     double systemEndTime = ((systemEnd.tv_usec / 1000));
     double wallClockTime = endTime - startTime;
+
+    //return stats
     cout << "System Statistics For Process:\n";
     cout << "     User CPU Time: " << userEndTime << " milliseconds\n";
     cout << "     System CPU Time: " << systemEndTime << " milliseconds\n";
@@ -48,6 +54,7 @@ int run (char ** inputArgs)
     long startTime;
     struct timeval processStart;
 
+    //set start time
     gettimeofday(&processStart, NULL);
     startTime = ((processStart.tv_usec / 1000));
 
@@ -72,7 +79,7 @@ int run (char ** inputArgs)
             return 0;
         }
 
-        else {
+        else { //with a background process
             process child = {pid, inputArgs[0], startTime};
             children.push_back(child);
             cout << "[" << children.size() << "] " << children.back().pid << endl;
@@ -83,6 +90,7 @@ int run (char ** inputArgs)
 }
 
 int main(int argc, char *argv[]){
+    //allocate required size
     char **newArgs = (char **)malloc(32 * sizeof(char *));
     int i;
     
