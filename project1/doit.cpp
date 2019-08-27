@@ -24,14 +24,14 @@ void printStats(long startTime){ //start time in ms
     struct rusage usage;
     struct timeval processEnd, userEnd, systemEnd;
     gettimeofday(&processEnd, NULL);
-    long endTime = ((processEnd.tv_sec * 1000000));
+    long endTime = ((processEnd.tv_usec / 1000));
     getrusage(RUSAGE_CHILDREN, &usage);
     userEnd = usage.ru_utime;
     systemEnd = usage.ru_stime;
     double testUser = userEnd.tv_usec;
     cout << "TEST" << testUser << endl;
-    double userEndTime = ((userEnd.tv_sec * 1000000000000));
-    double systemEndTime = ((systemEnd.tv_sec * 1000000000000));
+    double userEndTime = ((userEnd.tv_usec / 1000));
+    double systemEndTime = ((systemEnd.tv_sec / 1000));
     double wallClockTime = endTime - startTime;
     cout << "System Statistics For Process:\n";
     cout << "     User CPU Time: " << userEndTime << " milliseconds\n";
@@ -51,7 +51,7 @@ int run (char ** inputArgs)
     struct timeval processStart;
 
     gettimeofday(&processStart, NULL);
-    startTime = ((processStart.tv_sec * 1000000));
+    startTime = ((processStart.tv_usec / 1000));
 
     //fork process
     pid = fork();
