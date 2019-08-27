@@ -28,10 +28,8 @@ void printStats(long startTime){ //start time in ms
     getrusage(RUSAGE_CHILDREN, &usage);
     userEnd = usage.ru_utime;
     systemEnd = usage.ru_stime;
-    double testSystem = systemEnd.tv_usec;
-    cout << "TEST" << testSystem << endl;
     double userEndTime = ((userEnd.tv_usec / 1000));
-    double systemEndTime = ((systemEnd.tv_sec / 1000));
+    double systemEndTime = ((systemEnd.tv_usec / 1000));
     double wallClockTime = endTime - startTime;
     cout << "System Statistics For Process:\n";
     cout << "     User CPU Time: " << userEndTime << " milliseconds\n";
