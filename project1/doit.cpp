@@ -24,7 +24,7 @@ void printStats(long startTime){ //start time in ms
     struct rusage usage;
     struct timeval processEnd, userEnd, systemEnd;
     gettimeofday(&processEnd, NULL);
-    long endTime = ((processEnd.tv_sec * 10000));// + (processEnd.tv_sec / 1000));
+    long endTime = ((processEnd.tv_sec * 1000));// + (processEnd.tv_sec / 1000));
     getrusage(RUSAGE_CHILDREN, &usage);
     userEnd = usage.ru_utime;
     systemEnd = usage.ru_stime;
