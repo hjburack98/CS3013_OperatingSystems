@@ -28,6 +28,8 @@ void printStats(long startTime){ //start time in ms
     getrusage(RUSAGE_CHILDREN, &usage);
     userEnd = usage.ru_utime;
     systemEnd = usage.ru_stime;
+    double testUser = userEnd.tv_usec;
+    cout << "TEST" << testUser << endl;
     double userEndTime = ((userEnd.tv_sec * 1000000000000));
     double systemEndTime = ((systemEnd.tv_sec * 1000000000000));
     double wallClockTime = endTime - startTime;
