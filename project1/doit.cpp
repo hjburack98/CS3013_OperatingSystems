@@ -35,6 +35,10 @@ void printStats(long startTime){ //start time in ms
     cout << "     User CPU Time: " << userEndTime << " milliseconds\n";
     cout << "     System CPU Time: " << systemEndTime << " milliseconds\n";
     cout << "     Wall Clock Time: " << wallClockTime << " milliseconds\n";
+    cout << "     Preemted Involuntarily: " << usage.ru_nivcsw << endl;
+    cout << "     Preemted Voluntarily: " << usage.ru_nvcsw << endl;
+    cout << "     Major Page Faults: " << usage.ru_majflt << endl;
+    cout << "     Minor Page Faults: " << usage.ru_minflt << endl;
 }
 
 
