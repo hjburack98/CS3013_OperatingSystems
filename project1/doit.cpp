@@ -223,8 +223,8 @@ int main(int argc, char *argv[]){
             }
         }
     } */
-    else { // enter shell mode
-		while (1) {
+    else { //if there is only one argument, enter shell mode
+		while(1) {
 			// print prompt
 			cout << prompt << " ";
 
