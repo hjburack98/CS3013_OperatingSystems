@@ -8,6 +8,7 @@ using namespace std;
 #include <string.h>
 #include <sys/time.h>
 #include <vector>
+#include <stdlib.h>
 #define MAX_CHARS 128
 #define MAX_ARGS 32
 
