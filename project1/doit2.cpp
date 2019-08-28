@@ -100,52 +100,6 @@ int execute(char ** newArgs) {
 	}
 }
 
-/* grabs a line from cin and executes it. */
-int doLine(char **out) {
-	char line[MAX_CHARS];
-	char *token;
-	int position = 0;
-
-	cin.getline(line, MAX_CHARS);
-	token = strtok(line, " ");
-	while (token != NULL) {
-		out[position] = token;
-		token = strtok(NULL, " ");	
-		position++;
-	}
-
-	if (strcmp(out[position - 1], "&") == 0) { // background process
-		ampersand = 1;
-		out[position - 1] = NULL;
-	} else {
-		ampersand = 0;
-		out[position] = NULL;
-	}
-	if (strcmp(out[0], "exit") == 0) { // exit command
-		safeExit();
-		return 1;
-	} else if (strcmp(out[0], "cd") == 0 && out[1] != NULL)  { // cd command
-		if (chdir(out[1]) != 0)
-			cerr << "chdir error\n";
-	} else if (strcmp(out[0], "set") == 0 && strcmp(out[1], "prompt") == 0 && strcmp(out[2], "=") == 0 && out[3] != NULL) { // set prompt command
-		strcpy(prompt, out[3]);
-	} else if (strcmp(out[0], "jobs") == 0) {
-		if (children.size() == 0) {
-			cout << "No jobs running\n";
-		} else {
-			for (unsigned long i = 0; i < children.size(); i++) {
-				cout << "[" << i + 1 << "] " << children[i].pid << " " << children[i].cmd << endl;
-			}
-		}
-	} else {
-		execute(out);
-	}
-
-	return 0;
-}
-		
-	
-
 int main(int argc, char *argv[]) {
 	char **newArgs = (char **)malloc(MAX_ARGS * sizeof(char *));
 	int i;
@@ -216,7 +170,6 @@ int main(int argc, char *argv[]) {
 			} else {
 				execute(newArgs);
 			}
-			//doLine(newArgs);
 		}
 	}
 }
