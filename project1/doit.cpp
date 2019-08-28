@@ -167,7 +167,7 @@ int main(int argc, char *argv[]){
         newArgs[argc - 1] = NULL;
         run(newArgs);
     }
-    else { //if there is only one argument, enter shell mode
+    /*else { //if there is only one argument, enter shell mode
         while(1){
             cout << prompt << " ";
 
@@ -221,6 +221,63 @@ int main(int argc, char *argv[]){
             else {
                 run(newArgs);
             }
+        }
+    } */
+    else { // enter shell mode
+		while (1) {
+			// print prompt
+			cout << prompt << " ";
+
+			char line[MAX_CHARS];
+			char *token;
+			int position = 0;
+
+			cin.getline(line, MAX_CHARS); // read in line
+
+			// check for finishing background processes
+			for (unsigned long j = 0; j < children.size(); j++) {
+				int childStatus;
+				pid_t result = waitpid(children.at(j).pid, &childStatus, WNOHANG);
+				if (result > 0) { // child quit
+					cout << "[" << j + 1 << "] " << children.at(j).pid << " Completed\n";
+					printStats(children.at(j).start);
+					children.erase(children.begin() + j);
+				}
+			}
+
+			// tokenize the input line
+			token = strtok(line, " ");
+			while (token != NULL) {
+				newArgs[position] = token;
+				token = strtok(NULL, " ");	
+				position++;
+			}
+
+			if (strcmp(newArgs[position - 1], "&") == 0) { // background process
+				ampersand = 1;
+				newArgs[position - 1] = NULL;
+			} else {
+				ampersand = 0;
+				newArgs[position] = NULL;
+			}
+			if (strcmp(newArgs[0], "exit") == 0) { // exit command
+				exit();
+			} else if (strcmp(newArgs[0], "cd") == 0 && newArgs[1] != NULL)  { // cd command
+				if (chdir(newArgs[1]) != 0)
+					cerr << "chdir error\n";
+			} else if (strcmp(newArgs[0], "set") == 0 && strcmp(newArgs[1], "prompt") == 0 && strcmp(newArgs[2], "=") == 0 && newArgs[3] != NULL) { // set prompt command
+				strcpy(prompt, newArgs[3]);
+			} else if (strcmp(newArgs[0], "jobs") == 0) {
+				if (children.size() == 0) {
+					cout << "No jobs running\n";
+				} else {
+					for (unsigned long i = 0; i < children.size(); i++) {
+						cout << "[" << i + 1 << "] " << children[i].pid << " " << children[i].cmd << endl;
+			}
+				}
+			} else {
+				run(newArgs);
+			}
         }
     }
    
