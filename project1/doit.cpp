@@ -17,6 +17,7 @@ typedef struct {
     long start;
 } process; 
 
+char *prompt = (char *)malloc(16 * sizeof(char));
 int ampersand = 0; //if process in running in background
 vector<process> children; //vector to dynamically allocade
 
@@ -87,6 +88,22 @@ int run (char ** inputArgs)
         }
     }
 
+}
+
+void exit() {
+    if(children.size() > 0) { //need child to finish running
+        cout << children.size() << "still need to finish" << endl;
+        
+        for(unsigned long i = 0; i < children.size(); i++){
+            int status;
+            pid_t result = waitpid(children.at(i).pid, &status, 0);
+            if(result > 0){
+                cout << "[" << i+1 << "] " << children.at(i).pid << " completed\n";
+                printStats(children.at(i).start);
+            }
+        }
+    }
+    exit(0);
 }
 
 int main(int argc, char *argv[]){
