@@ -9,6 +9,8 @@ using namespace std;
 #include <vector>
 #include <unistd.h>
 #include <stdlib.h>
+#define MAX_ARGS 32
+#define MAX_CHARS 128
 
 
 typedef struct {
@@ -97,7 +99,7 @@ void exit() {
         for(unsigned long i = 0; i < children.size(); i++){
             int status;
             pid_t result = waitpid(children.at(i).pid, &status, 0);
-            if(result > 0){
+            if(result > 0){ //once child has finished running
                 cout << "[" << i+1 << "] " << children.at(i).pid << " completed\n";
                 printStats(children.at(i).start);
             }
@@ -107,11 +109,11 @@ void exit() {
 }
 
 int runLine(char **out){
-    char line[32];
+    char line[MAX_CHARS];
     char *token;
     int position = 0;
 
-    cin.getline(line, 32);
+    cin.getline(line, MAX_CHARS);
     token = strtok(line, " ");
     while(token != NULL) {
         out[position] = token;
@@ -149,14 +151,79 @@ int runLine(char **out){
 
 int main(int argc, char *argv[]){
     //allocate required size
-    char **newArgs = (char **)malloc(32 * sizeof(char *));
+    char **newArgs = (char **)malloc(MAX_ARGS * sizeof(char *));
     int i;
-    
-    for(i = 1; i < argc; i++){
+
+    prompt[0] = '=';
+    prompt[1] = '=';
+    prompt[2] = '>';
+    prompt[3] = '/0';
+
+    if(argc > 1){ //if there's greater than one argument, code takes the command line argument
+        for(i = 1; i < argc; i++){
         newArgs[i - 1] = argv[i];
+        }
+
+        newArgs[argc - 1] = NULL;
+        run(newArgs);
     }
-    newArgs[argc - 1] = NULL;
-    run(newArgs);
+    else { //if there is only one argument, enter shell mode
+        while(1){
+            cout << prompt << " ";
+
+            char line[MAX_CHARS];
+            char *token;
+            int position = 0;
+
+            cin.getline(line, MAX_CHARS); //read line
+
+            for(unsigned long j = 0; j < children.size(); j++){ //background processes
+                int childStatus;
+                pid_t result = waitpid(children.at(j).pid, &childStatus, WNOHANG);
+
+                if(result > 0){ //once completed
+                    cout << "[" << j + 1 << "] " << children.at(j).pid << " completed\n";
+                    printStats(children.at(j).start);
+                    children.erase(children.begin() + j);
+                }
+            }
+
+            //make input a token
+            token = strtok(line, " ");
+            while(token != NULL){
+                newArgs[position] = token;
+                token = strtok(NULL, " ");
+                position++;
+            }
+
+
+            if(strcmp(newArgs[position - 1], "&") == 0){ //if there is a backround process
+                ampersand = 1;
+                newArgs[position - 1] = NULL;
+            }
+            else {
+                ampersand = 0;
+                newArgs[position - 1] = NULL;
+            }
+
+            if(strcmp(newArgs[0], "exit") == 0) { //exit
+                exit();
+                return 1;
+            }
+            else if(strcmp(newArgs[0], "cd") == 0 && newArgs[1] != NULL){ //cd
+                if(chdir(newArgs[1]) != 0){
+                    cerr << "CHDIR ERROR\n";
+                }
+            }   
+            else if(strcmp(newArgs[0], "set") == 0 && strcmp(newArgs[1], "prompt") == 0 && strcmp(newArgs[2], "=") == 0 && newArgs[3] != NULL) { //set prompt
+                strcpy(prompt, newArgs[3]);
+            }
+            else {
+                run(newArgs);
+            }
+        }
+    }
+   
 }
 
 
