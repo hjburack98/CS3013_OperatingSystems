@@ -157,7 +157,7 @@ int main(int argc, char *argv[]){
     prompt[0] = '=';
     prompt[1] = '=';
     prompt[2] = '>';
-    prompt[3] = '/0';
+    prompt[3] = '\0';
 
     if(argc > 1){ //if there's greater than one argument, code takes the command line argument
         for(i = 1; i < argc; i++){
