@@ -106,6 +106,47 @@ void exit() {
     exit(0);
 }
 
+int runLine(char **out){
+    char line[32];
+    char *token;
+    int position = 0;
+
+    cin.getline(line, 32);
+    token = strtok(line, " ");
+    while(token != NULL) {
+        out[position] = token;
+        token = strtok(NULL, " ");
+        position++;
+    }
+
+    if(strcmp(out[position - 1], "&") == 0){ //if there is a backround process
+        ampersand = 1;
+        out[position - 1] = NULL;
+    }
+    else {
+        ampersand = 0;
+        out[position - 1] = NULL;
+    }
+
+    if(strcmp(out[0], "exit") == 0) { //exit
+        exit();
+        return 1;
+    }
+    else if(strcmp(out[0], "cd") == 0 && out[1] != NULL){ //cd
+        if(chdir(out[1]) != 0){
+            cerr << "CHDIR ERROR\n";
+        }
+    }   
+    else if(strcmp(out[0], "set") == 0 && strcmp(out[1], "prompt") == 0 && strcmp(out[2], "=") == 0 && out[3] != NULL) { //set prompt
+        strcpy(prompt, out[3]);
+    }
+    else {
+        run(out);
+    }
+
+    return 0;
+}
+
 int main(int argc, char *argv[]){
     //allocate required size
     char **newArgs = (char **)malloc(32 * sizeof(char *));
