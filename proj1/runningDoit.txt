@@ -1,0 +1,85 @@
+Script started on Thu 29 Aug 2019 03:21:57 PM EDT
+[?1034hbash-4.2$ make doit
+g++ -Wall -lm doit.cpp -o doit
+bash-4.2$ ./dopit[K[K[Kit wc bible.txt
+ 100181  824036 4351185 bible.txt
+USAGE STATS:
+   User time = 49 ms
+   System time = 0 ms
+   Wall Clock Time = 52 ms
+   Involuntary context switches = 1
+   Voluntary context switches = 3
+   Major page faults = 0
+   Minor page faults = 245
+bash-4.2$ ./doit wait[K[K[K[Ksleep 3
+USAGE STATS:
+   User time = 0 ms
+   System time = 0 ms
+   Wall Clock Time = 3001 ms
+   Involuntary context switches = 2
+   Voluntary context switches = 2
+   Major page faults = 0
+   Minor page faults = 212
+bash-4.2$ ./doit
+==> cd ..
+==> ls
+proj1
+USAGE STATS:
+   User time = 0 ms
+   System time = 2 ms
+   Wall Clock Time = 3 ms
+   Involuntary context switches = 1
+   Voluntary context switches = 2
+   Major page faults = 0
+   Minor page faults = 308
+==> sleep 10 &
+[1] 70236
+==> sleep 5 &
+[2] 70241
+==> jobs
+[1] 70236 sleep
+[2] 70241 sleep
+==> jobs
+[1] 70236 Completed
+USAGE STATS:
+   User time = 0 ms
+   System time = 3 ms
+   Wall Clock Time = 13709 ms
+   Involuntary context switches = 2
+   Voluntary context switches = 4
+   Major page faults = 0
+   Minor page faults = 520
+[1] 70241 sleep
+==> jobs
+[1] 70241 Completed
+USAGE STATS:
+   User time = 0 ms
+   System time = 3 ms
+   Wall Clock Time = 15088 ms
+   Involuntary context switches = 3
+   Voluntary context switches = 6
+   Major page faults = 0
+   Minor page faults = 732
+No jobs running
+==> cd proj1 &
+==> ls &
+[1] 70305
+==> bible.txt  doit  doit.cpp  Dumas.txt  makefile	runningDoit.txt
+jobs
+[1] 70305 Completed
+USAGE STATS:
+   User time = 0 ms
+   System time = 6 ms
+   Wall Clock Time = 1146 ms
+   Involuntary context switches = 4
+   Voluntary context switches = 9
+   Major page faults = 0
+   Minor page faults = 1045
+No jobs running
+==> set prompt = testPrompt:  
+testPrompt: set prop  ompt = ==>
+==> exit
+bash-4.2$ exit
+exit
+
+Script done on Thu 29 Aug 2019 03:24:14 PM EDT
