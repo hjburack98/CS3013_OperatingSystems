@@ -38,19 +38,19 @@ void printStats(long startTime)
 	systemEnd = usage.ru_stime;
 
 	//convert times to ms
-	double userTime = ((userEnd.tv_sec * 1000) + (userEnd.tv_usec / 1000));
-	double systemTime = ((systemEnd.tv_sec * 1000) + (systemEnd.tv_usec / 1000));
+	double userEndTime = ((userEnd.tv_sec * 1000) + (userEnd.tv_usec / 1000));
+	double systemEndTime = ((systemEnd.tv_sec * 1000) + (systemEnd.tv_usec / 1000));
 	double wallClockTime = endTime - startTime;
 
 	//print stats
 	cout << "USAGE STATS:\n";
-	cout << "   system time = " << systemTime << " ms\n";
-	cout << "   user time = " << userTime << " ms\n";
-	cout << "   wall clock time = " << wallClockTime << " ms\n";
-	cout << "   involuntary context switches = " << usage.ru_nivcsw << endl;
-	cout << "   voluntary context switches = " << usage.ru_nvcsw << endl;
-	cout << "   page faults requiring I/O = " << usage.ru_majflt << endl;
-	cout << "   page faults serviced without I/O = " << usage.ru_minflt << endl;
+	cout << "   User time = " << userEndTime << " ms\n";
+	cout << "   System time = " << systemEndTime << " ms\n";
+	cout << "   Wall Clock Time = " << wallClockTime << " ms\n";
+	cout << "   Involuntary context switches = " << usage.ru_nivcsw << endl;
+	cout << "   Voluntary context switches = " << usage.ru_nvcsw << endl;
+	cout << "   Major page faults = " << usage.ru_majflt << endl;
+	cout << "   Minor page faults = " << usage.ru_minflt << endl;
 }
 
 void safeExit()
