@@ -150,6 +150,7 @@ int main(int argc, char *argv[])
 			cin.getline(line, MAX_CHARS); //read shell line
 
 			if(cin.eof() > 0){
+				cout << endl;
 				safeExit();
 			}
 
