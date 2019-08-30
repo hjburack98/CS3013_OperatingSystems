@@ -149,6 +149,10 @@ int main(int argc, char *argv[])
 
 			cin.getline(line, MAX_CHARS); //read shell line
 
+			if(cin.eof() > 0){
+				safeExit();
+			}
+
 			//check to see if background processes finished
 			for (unsigned long j = 0; j < children.size(); j++)
 			{
