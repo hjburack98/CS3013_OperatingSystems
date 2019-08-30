@@ -1,0 +1,73 @@
+Script started on Thu 29 Aug 2019 09:03:43 PM EDT
+[?1034hbash-4.2$ make doit
+g++ -Wall -lm doit.cpp -o doit
+bash-4.2$ ./doit wc bible.txt
+ 100181  824036 4351185 bible.txt
+USAGE STATS:
+   User time = 48 ms
+   System time = 2 ms
+   Wall Clock Time = 53 ms
+   Involuntary context switches = 2
+   Voluntary context switches = 3
+   Major page faults = 0
+   Minor page faults = 245
+bash-4.2$ ./doit
+==> ls
+bible.txt  doit  doit.cpp  Dumas.txt  makefile	runningSubmission.txt
+USAGE STATS:
+   User time = 0 ms
+   System time = 1 ms
+   Wall Clock Time = 3 ms
+   Involuntary context switches = 1
+   Voluntary context switches = 3
+   Major page faults = 0
+   Minor page faults = 314
+==> set prompt = testPrompt:
+testPrompt: set prompt = ==>
+==> sleep 15 &
+[1] 12953
+==> jobs
+[1] 12953 sleep
+==> jobs
+[1] 12953 sleep
+==> ls
+[1] 12953 Completed
+USAGE STATS:
+   User time = 0 ms
+   System time = 1 ms
+   Wall Clock Time = 26661 ms
+   Involuntary context switches = 2
+   Voluntary context switches = 5
+   Major page faults = 0
+   Minor page faults = 527
+bible.txt  doit  doit.cpp  Dumas.txt  makefile	runningSubmission.txt
+USAGE STATS:
+   User time = 1 ms
+   System time = 2 ms
+   Wall Clock Time = 4 ms
+   Involuntary context switches = 3
+   Voluntary context switches = 8
+   Major page faults = 0
+   Minor page faults = 842
+==> ls  sleep 10   &
+[1] 13006
+==> exit
+Waiting for 1 process(es) to finish
+[1] 13006 Completed
+USAGE STATS:
+   User time = 1 ms
+   System time = 3 ms
+   Wall Clock Time = 10002 ms
+   Involuntary context switches = 4
+   Voluntary context switches = 10
+   Major page faults = 0
+   Minor page faults = 1055
+bash-4.2$ ./doit
+==> set prompt = enterint gEndOfFile:
+enteringEndOfFile: 
+bash-4.2$ make clean
+rm -f doit
+bash-4.2$ exit
+exit
+
+Script done on Thu 29 Aug 2019 09:06:25 PM EDT
