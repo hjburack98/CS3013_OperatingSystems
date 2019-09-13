@@ -1,0 +1,118 @@
+Michael Rossetti and Harrison Burack
+
+Script started on Tue 10 Sep 2019 02:41:39 PM EDT
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ make clean
+make -C /lib/modules/4.4.186mfrossetti/build M=/home/mike/Desktop/Project2 clean
+make[1]: Entering directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+make  CLEAN   /home/mike/Desktop/Project2/.tmp_versions
+  CLEAN   /home/mike/Desktop/Project2/Module.symvers
+make[1]: Leaving directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ make
+make -C /lib/modules/4.4.186mfrossetti/build M=/home/mike/Desktop/Project2 modules
+make[1]: Entering directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+  CC [M]  /home/mike/Desktop/Project2/mymodule.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/mike/Desktop/Project2/mymodule.mod.o
+  LD [M]  /home/mike/Desktop/Project2/mymodule.ko
+make[1]: Leaving directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ sudo insmod mymodule.ko
+[sudo] password for mike: 
+insmod: ERROR: could not insert module mymodule.ko: File exists
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ cd ~
+]0;mike@MR3013: ~[01;32mmike@MR3013[00m:[01;34m~[00m$ cd Desktop
+]0;mike@MR3013: ~/Desktop[01;32mmike@MR3013[00m:[01;34m~/Desktop[00m$ ./program
+The return values of the system calls are:
+	cs3013_syscall1: 0
+	cs3013_syscall2: 0
+	cs3013_syscall3: 0
+]0;mike@MR3013: ~/Desktop[01;32mmike@MR3013[00m:[01;34m~/Desktop[00m$ ./programcd Desktop~[Ksudo insmod mymodule.komake[K clean[6Pexittail -n 30  /var/log/syslog
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[18P./program[5Pexit./programtail -n 30  /var/log/syslog
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cexit[Kmake clean[6Pexittail -n 30  /var/log/syslog[C[C[C[1P[1P[1@1[1P[1@ [1@1[C[1@0[C[C[1P/var/log/syslog
+Sep 10 14:15:33 MR3013 anacron[665]: Job `cron.daily' terminated
+Sep 10 14:17:01 MR3013 CRON[6798]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Sep 10 14:20:27 MR3013 anacron[665]: Job `cron.weekly' started
+Sep 10 14:20:27 MR3013 anacron[6814]: Updated timestamp for job `cron.weekly' to 2019-09-10
+Sep 10 14:20:28 MR3013 anacron[665]: Job `cron.weekly' terminated
+Sep 10 14:20:28 MR3013 anacron[665]: Normal exit (2 jobs run)
+Sep 10 14:21:27 MR3013 rtkit-daemon[1145]: Supervising 3 threads of 1 processes of 1 users.
+Sep 10 14:21:27 MR3013 rtkit-daemon[1145]: Supervising 3 threads of 1 processes of 1 users.
+Sep 10 14:21:27 MR3013 rtkit-daemon[1145]: Successfully made thread 6849 of process 6832 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:27 MR3013 rtkit-daemon[1145]: Supervising 4 threads of 2 processes of 1 users.
+Sep 10 14:21:31 MR3013 rtkit-daemon[1145]: message repeated 2 times: [ Supervising 4 threads of 2 processes of 1 users.]
+Sep 10 14:21:31 MR3013 rtkit-daemon[1145]: Successfully made thread 6916 of process 6890 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:31 MR3013 rtkit-daemon[1145]: Supervising 5 threads of 3 processes of 1 users.
+Sep 10 14:21:31 MR3013 rtkit-daemon[1145]: message repeated 2 times: [ Supervising 5 threads of 3 processes of 1 users.]
+Sep 10 14:21:31 MR3013 rtkit-daemon[1145]: Successfully made thread 6915 of process 6890 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:31 MR3013 rtkit-daemon[1145]: Supervising 6 threads of 3 processes of 1 users.
+Sep 10 14:21:33 MR3013 rtkit-daemon[1145]: message repeated 3 times: [ Supervising 6 threads of 3 processes of 1 users.]
+Sep 10 14:21:33 MR3013 rtkit-daemon[1145]: Successfully made thread 6958 of process 6930 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:33 MR3013 rtkit-daemon[1145]: Supervising 7 threads of 4 processes of 1 users.
+Sep 10 14:21:33 MR3013 rtkit-daemon[1145]: Supervising 7 threads of 4 processes of 1 users.
+Sep 10 14:21:33 MR3013 rtkit-daemon[1145]: Successfully made thread 6957 of process 6930 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:33 MR3013 rtkit-daemon[1145]: Supervising 8 threads of 4 processes of 1 users.
+Sep 10 14:21:35 MR3013 rtkit-daemon[1145]: message repeated 3 times: [ Supervising 8 threads of 4 processes of 1 users.]
+Sep 10 14:21:35 MR3013 rtkit-daemon[1145]: Successfully made thread 6991 of process 6969 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:35 MR3013 rtkit-daemon[1145]: Supervising 9 threads of 5 processes of 1 users.
+Sep 10 14:21:35 MR3013 rtkit-daemon[1145]: Supervising 9 threads of 5 processes of 1 users.
+Sep 10 14:21:35 MR3013 rtkit-daemon[1145]: Successfully made thread 6990 of process 6969 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:35 MR3013 rtkit-daemon[1145]: Supervising 10 threads of 5 processes of 1 users.
+Sep 10 14:21:36 MR3013 rtkit-daemon[1145]: message repeated 2 times: [ Supervising 10 threads of 5 processes of 1 users.]
+Sep 10 14:21:36 MR3013 rtkit-daemon[1145]: Successfully made thread 7026 of process 6995 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:36 MR3013 rtkit-daemon[1145]: Supervising 11 threads of 6 processes of 1 users.
+Sep 10 14:21:36 MR3013 rtkit-daemon[1145]: message repeated 2 times: [ Supervising 11 threads of 6 processes of 1 users.]
+Sep 10 14:21:36 MR3013 rtkit-daemon[1145]: Successfully made thread 7025 of process 6995 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:21:36 MR3013 rtkit-daemon[1145]: Supervising 12 threads of 6 processes of 1 users.
+Sep 10 14:21:51 MR3013 gnome-session[1801]: ** (zeitgeist-datahub:2210): WARNING **: zeitgeist-datahub.vala:212: Error during inserting events: GDBus.Error:org.gnome.zeitgeist.EngineError.InvalidArgument: Incomplete event: interpretation, manifestation and actor are required
+Sep 10 14:21:51 MR3013 gnome-session[1801]: ** (zeitgeist-datahub:2210): WARNING **: zeitgeist-datahub.vala:212: Error during inserting events: GDBus.Error:org.gnome.zeitgeist.EngineError.InvalidArgument: Incomplete event: interpretation, manifestation and actor are required
+Sep 10 14:22:02 MR3013 dbus[729]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service'
+Sep 10 14:22:02 MR3013 systemd[1]: Starting Hostname Service...
+Sep 10 14:22:02 MR3013 dbus[729]: [system] Successfully activated service 'org.freedesktop.hostname1'
+Sep 10 14:22:02 MR3013 systemd[1]: Started Hostname Service.
+Sep 10 14:22:05 MR3013 org.gtk.vfs.Daemon[1510]: ** (gvfsd:1605): WARNING **: dbus_mount_reply: Error from org.gtk.vfs.Mountable.mount(): Failed to retrieve share list from server: Connection refused
+Sep 10 14:22:05 MR3013 org.gtk.vfs.Daemon[1510]: ** (process:7068): WARNING **: Couldn't create directory monitor on smb://x-gnome-default-workgroup/. Error: The specified location is not mounted
+Sep 10 14:22:08 MR3013 org.gtk.vfs.Daemon[1510]: ** (gvfsd:1605): WARNING **: dbus_mount_reply: Error from org.gtk.vfs.Mountable.mount(): Failed to retrieve share list from server: Connection refused
+Sep 10 14:22:08 MR3013 org.gtk.vfs.Daemon[1510]: ** (process:7086): WARNING **: Couldn't create directory monitor on smb://x-gnome-default-workgroup/. Error: The specified location is not mounted
+Sep 10 14:23:12 MR3013 AptDaemon: INFO: Quitting due to inactivity
+Sep 10 14:23:12 MR3013 org.debian.apt[729]: 14:23:12 AptDaemon [INFO]: Quitting due to inactivity
+Sep 10 14:23:12 MR3013 org.debian.apt[729]: 14:23:12 AptDaemon [INFO]: Quitting was requested
+Sep 10 14:23:12 MR3013 AptDaemon: INFO: Quitting was requested
+Sep 10 14:23:17 MR3013 org.gnome.zeitgeist.SimpleIndexer[1510]: ** (zeitgeist-fts:2229): WARNING **: Unable to get info on application://nautilus-autostart.desktop
+Sep 10 14:23:47 MR3013 rtkit-daemon[1145]: Supervising 10 threads of 5 processes of 1 users.
+Sep 10 14:23:47 MR3013 rtkit-daemon[1145]: Supervising 10 threads of 5 processes of 1 users.
+Sep 10 14:23:47 MR3013 rtkit-daemon[1145]: Successfully made thread 7174 of process 7150 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:23:47 MR3013 rtkit-daemon[1145]: Supervising 11 threads of 6 processes of 1 users.
+Sep 10 14:23:47 MR3013 rtkit-daemon[1145]: message repeated 2 times: [ Supervising 11 threads of 6 processes of 1 users.]
+Sep 10 14:23:47 MR3013 rtkit-daemon[1145]: Successfully made thread 7173 of process 7150 (n/a) owned by '1000' RT at priority 10.
+Sep 10 14:23:47 MR3013 rtkit-daemon[1145]: Supervising 12 threads of 6 processes of 1 users.
+Sep 10 14:25:52 MR3013 dbus[729]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service'
+Sep 10 14:25:52 MR3013 systemd[1]: Starting Cleanup of Temporary Directories...
+Sep 10 14:25:52 MR3013 systemd[1]: Starting Hostname Service...
+Sep 10 14:25:52 MR3013 systemd-tmpfiles[7190]: [/usr/lib/tmpfiles.d/var.conf:14] Duplicate line for path "/var/log", ignoring.
+Sep 10 14:25:52 MR3013 dbus[729]: [system] Successfully activated service 'org.freedesktop.hostname1'
+Sep 10 14:25:52 MR3013 systemd[1]: Started Hostname Service.
+Sep 10 14:25:52 MR3013 systemd[1]: Started Cleanup of Temporary Directories.
+Sep 10 14:28:08 MR3013 dbus[729]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service'
+Sep 10 14:28:08 MR3013 systemd[1]: Starting Hostname Service...
+Sep 10 14:28:08 MR3013 dbus[729]: [system] Successfully activated service 'org.freedesktop.hostname1'
+Sep 10 14:28:08 MR3013 systemd[1]: Started Hostname Service.
+Sep 10 14:28:24 MR3013 org.gnome.zeitgeist.SimpleIndexer[1510]: ** (zeitgeist-fts:2229): WARNING **: Unable to get info on application://nautilus-autostart.desktop
+Sep 10 14:29:56 MR3013 org.gnome.zeitgeist.SimpleIndexer[1510]: ** (zeitgeist-fts:2229): WARNING **: Unable to get info on application://nautilus-autostart.desktop
+Sep 10 14:30:29 MR3013 com.canonical.Unity.Scope.Applications[1510]: Error loading package indexes: Couldn't stat '/var/cache/software-center/xapian'
+Sep 10 14:30:29 MR3013 com.canonical.Unity.Scope.Applications[1510]: (unity-scope-loader:9212): unity-applications-daemon-CRITICAL **: daemon.vala:144: Failed to load Software Center index. 'Apps Available for Download' will not be listed
+Sep 10 14:31:54 MR3013 kernel: [ 1292.498285] mymodule: loading out-of-tree module taints kernel.
+Sep 10 14:31:54 MR3013 kernel: [ 1292.498310] mymodule: module verification failed: signature and/or required key missing - tainting kernel
+Sep 10 14:31:54 MR3013 kernel: [ 1292.901406] Interceptor: Found syscall table at address: 0xC17EE180
+Sep 10 14:34:07 MR3013 kernel: [ 1292.901408] Loaded interceptor!"'Hello world?!' More like 'Goodbye, world!' EXTERMINATE!" -- Dalek
+Sep 10 14:34:07 MR3013 kernel: [ 1425.602555] 'Hello, world!' -- syscall2
+Sep 10 14:34:07 MR3013 kernel: [ 1425.602559] 'Hello, world!' -- syscall3
+Sep 10 14:39:47 MR3013 kernel: [ 1766.507162] "'Hello world?!' More like 'Goodbye, world!' EXTERMINATE!" -- Dalek
+Sep 10 14:39:47 MR3013 kernel: [ 1766.507182] 'Hello, world!' -- syscall2
+Sep 10 14:39:47 MR3013 kernel: [ 1766.507185] 'Hello, world!' -- syscall3
+Sep 10 14:42:22 MR3013 kernel: [ 1920.855428] "'Hello world?!' More like 'Goodbye, world!' EXTERMINATE!" -- Dalek
+Sep 10 14:42:22 MR3013 kernel: [ 1920.855438] 'Hello, world!' -- syscall2
+Sep 10 14:42:22 MR3013 kernel: [ 1920.855441] 'Hello, world!' -- syscall3
+]0;mike@MR3013: ~/Desktop[01;32mmike@MR3013[00m:[01;34m~/Desktop[00m$ exit
+exit
+
+Script done on Tue 10 Sep 2019 02:42:54 PM EDT

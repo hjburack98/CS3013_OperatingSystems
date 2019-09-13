@@ -1,0 +1,133 @@
+Mike Rossetti and Harrison Burack
+
+Script started on Thu 12 Sep 2019 08:06:50 PM EDT
+]0;mike@MR3013: ~/Desktop/Project2/Phase2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2/Phase2[00m$ make all
+make -C /lib/modules/4.4.186mfrossetti/build M=/home/mike/Desktop/Project2/Phase2 modules
+make[1]: Entering directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+  CC [M]  /home/mike/Desktop/Project2/Phase2/phase2.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/mike/Desktop/Project2/Phase2/phase2.mod.o
+  LD [M]  /home/mike/Desktop/Project2/Phase2/phase2.ko
+make[1]: Leaving directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+]0;mike@MR3013: ~/Desktop/Project2/Phase2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2/Phase2[00m$ sudo rmmod phase2.ko
+[sudo] password for mike: 
+]0;mike@MR3013: ~/Desktop/Project2/Phase2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2/Phase2[00m$ sudo insmod phase2.ko
+]0;mike@MR3013: ~/Desktop/Project2/Phase2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2/Phase2[00m$ ./testPhase2
+State: 0
+PID: 10413
+Parent PID: 9938
+Younger sibling PID: 10414
+Older sibling PID: 226
+Youngest child PID: 10414
+UID: 1000
+Process start time: 2089229149235
+CPU time in user mode: 0
+CPU time in system mode: 0
+User time of children: 0
+System time of children: 0
+]0;mike@MR3013: ~/Desktop/Project2/Phase2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2/Phase2[00m$ ./testPhase2sudo insmod phase2.ko[1Prm[C[C[C[C[C[C[C[C[C[C[C[C[C[12Pmake all[4Pexittail -n 100 /var/log/syslog
+Sep 12 19:33:32 MR3013 org.gnome.ScreenSaver[1421]: ** Message: Lost the name, shutting down.
+Sep 12 19:33:41 MR3013 pulseaudio[1709]: [pulseaudio] bluez5-util.c: GetManagedObjects() failed: org.freedesktop.DBus.Error.TimedOut: Failed to activate service 'org.bluez': timed out
+Sep 12 19:33:42 MR3013 systemd-timesyncd[376]: Synchronized to time server 91.189.89.198:123 (ntp.ubuntu.com).
+Sep 12 19:33:45 MR3013 org.gnome.zeitgeist.Engine[1421]: ** (zeitgeist-datahub:2000): WARNING **: zeitgeist-datahub.vala:229: Unable to get name "org.gnome.zeitgeist.datahub" on the bus!
+Sep 12 19:33:46 MR3013 dbus[733]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service'
+Sep 12 19:33:46 MR3013 systemd[1]: Starting Hostname Service...
+Sep 12 19:33:46 MR3013 dbus[733]: [system] Successfully activated service 'org.freedesktop.hostname1'
+Sep 12 19:33:46 MR3013 systemd[1]: Started Hostname Service.
+Sep 12 19:33:49 MR3013 org.gtk.vfs.Daemon[1421]: ** (gvfsd:1506): WARNING **: dbus_mount_reply: Error from org.gtk.vfs.Mountable.mount(): Failed to retrieve share list from server: Connection refused
+Sep 12 19:33:49 MR3013 org.gtk.vfs.Daemon[1421]: ** (process:2015): WARNING **: Couldn't create directory monitor on smb://x-gnome-default-workgroup/. Error: The specified location is not mounted
+Sep 12 19:33:52 MR3013 org.gtk.vfs.Daemon[1421]: ** (gvfsd:1506): WARNING **: dbus_mount_reply: Error from org.gtk.vfs.Mountable.mount(): Failed to retrieve share list from server: Connection refused
+Sep 12 19:33:52 MR3013 org.gtk.vfs.Daemon[1421]: ** (process:2030): WARNING **: Couldn't create directory monitor on smb://x-gnome-default-workgroup/. Error: The specified location is not mounted
+Sep 12 19:34:54 MR3013 kernel: [  104.193252] phase2: loading out-of-tree module taints kernel.
+Sep 12 19:34:54 MR3013 kernel: [  104.193280] phase2: module verification failed: signature and/or required key missing - tainting kernel
+Sep 12 19:34:54 MR3013 kernel: [  104.586184] Interceptor: Found syscall table at address: 0xC17EE180
+Sep 12 19:35:00 MR3013 kernel: [  104.586186] Loaded interceptor!<6>[  110.451398] Intercepted sys_call_cs3013_syscall2
+Sep 12 19:35:15 MR3013 systemd[1]: Stopping User Manager for UID 108...
+Sep 12 19:35:15 MR3013 systemd[1050]: Reached target Shutdown.
+Sep 12 19:35:15 MR3013 systemd[1050]: Starting Exit the Session...
+Sep 12 19:35:15 MR3013 systemd[1050]: Stopped target Default.
+Sep 12 19:35:15 MR3013 systemd[1050]: Stopped target Basic System.
+Sep 12 19:35:15 MR3013 systemd[1050]: Stopped target Paths.
+Sep 12 19:35:15 MR3013 systemd[1050]: Stopped target Timers.
+Sep 12 19:35:15 MR3013 systemd[1050]: Stopped target Sockets.
+Sep 12 19:35:15 MR3013 systemd[1050]: Received SIGRTMIN+24 from PID 2111 (kill).
+Sep 12 19:35:15 MR3013 systemd[1]: Stopped User Manager for UID 108.
+Sep 12 19:35:15 MR3013 systemd[1]: Removed slice User Slice of lightdm.
+Sep 12 19:36:22 MR3013 kernel: [  110.451401] good
+Sep 12 19:36:22 MR3013 kernel: [  192.516516] Intercepted sys_call_cs3013_syscall2
+Sep 12 19:39:29 MR3013 kernel: [  192.516518] good
+Sep 12 19:39:29 MR3013 kernel: [  379.885594] Intercepted sys_call_cs3013_syscall2
+Sep 12 19:41:15 MR3013 kernel: [  379.885596] good
+Sep 12 19:42:04 MR3013 rtkit-daemon[1165]: Supervising 3 threads of 1 processes of 1 users.
+Sep 12 19:42:04 MR3013 rtkit-daemon[1165]: Supervising 3 threads of 1 processes of 1 users.
+Sep 12 19:42:04 MR3013 rtkit-daemon[1165]: Successfully made thread 2544 of process 2527 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:04 MR3013 rtkit-daemon[1165]: Supervising 4 threads of 2 processes of 1 users.
+Sep 12 19:42:06 MR3013 rtkit-daemon[1165]: message repeated 2 times: [ Supervising 4 threads of 2 processes of 1 users.]
+Sep 12 19:42:06 MR3013 rtkit-daemon[1165]: Successfully made thread 2607 of process 2577 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:06 MR3013 rtkit-daemon[1165]: Supervising 5 threads of 3 processes of 1 users.
+Sep 12 19:42:06 MR3013 rtkit-daemon[1165]: message repeated 2 times: [ Supervising 5 threads of 3 processes of 1 users.]
+Sep 12 19:42:06 MR3013 rtkit-daemon[1165]: Successfully made thread 2606 of process 2577 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:06 MR3013 rtkit-daemon[1165]: Supervising 6 threads of 3 processes of 1 users.
+Sep 12 19:42:08 MR3013 rtkit-daemon[1165]: message repeated 4 times: [ Supervising 6 threads of 3 processes of 1 users.]
+Sep 12 19:42:08 MR3013 rtkit-daemon[1165]: Successfully made thread 2649 of process 2621 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:08 MR3013 rtkit-daemon[1165]: Supervising 7 threads of 4 processes of 1 users.
+Sep 12 19:42:08 MR3013 rtkit-daemon[1165]: Successfully made thread 2648 of process 2621 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:08 MR3013 rtkit-daemon[1165]: Supervising 8 threads of 4 processes of 1 users.
+Sep 12 19:42:09 MR3013 rtkit-daemon[1165]: Supervising 6 threads of 3 processes of 1 users.
+Sep 12 19:42:09 MR3013 rtkit-daemon[1165]: message repeated 3 times: [ Supervising 6 threads of 3 processes of 1 users.]
+Sep 12 19:42:09 MR3013 rtkit-daemon[1165]: Successfully made thread 2672 of process 2639 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:09 MR3013 rtkit-daemon[1165]: Supervising 7 threads of 4 processes of 1 users.
+Sep 12 19:42:09 MR3013 rtkit-daemon[1165]: Successfully made thread 2671 of process 2639 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:09 MR3013 rtkit-daemon[1165]: Supervising 8 threads of 4 processes of 1 users.
+Sep 12 19:42:11 MR3013 rtkit-daemon[1165]: message repeated 2 times: [ Supervising 8 threads of 4 processes of 1 users.]
+Sep 12 19:42:11 MR3013 rtkit-daemon[1165]: Successfully made thread 2710 of process 2690 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:11 MR3013 rtkit-daemon[1165]: Supervising 9 threads of 5 processes of 1 users.
+Sep 12 19:42:11 MR3013 rtkit-daemon[1165]: message repeated 2 times: [ Supervising 9 threads of 5 processes of 1 users.]
+Sep 12 19:42:11 MR3013 rtkit-daemon[1165]: Successfully made thread 2709 of process 2690 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:11 MR3013 rtkit-daemon[1165]: Supervising 10 threads of 5 processes of 1 users.
+Sep 12 19:42:46 MR3013 rtkit-daemon[1165]: message repeated 2 times: [ Supervising 10 threads of 5 processes of 1 users.]
+Sep 12 19:42:46 MR3013 rtkit-daemon[1165]: Successfully made thread 2744 of process 2721 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:46 MR3013 rtkit-daemon[1165]: Supervising 11 threads of 6 processes of 1 users.
+Sep 12 19:42:46 MR3013 rtkit-daemon[1165]: message repeated 2 times: [ Supervising 11 threads of 6 processes of 1 users.]
+Sep 12 19:42:46 MR3013 rtkit-daemon[1165]: Successfully made thread 2743 of process 2721 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:42:46 MR3013 rtkit-daemon[1165]: Supervising 12 threads of 6 processes of 1 users.
+Sep 12 19:43:39 MR3013 org.gnome.zeitgeist.SimpleIndexer[1421]: ** (zeitgeist-fts:1999): WARNING **: Unable to get info on application://nautilus-autostart.desktop
+Sep 12 19:46:08 MR3013 org.gnome.zeitgeist.SimpleIndexer[1421]: message repeated 2 times: [ ** (zeitgeist-fts:1999): WARNING **: Unable to get info on application://nautilus-autostart.desktop]
+Sep 12 19:47:09 MR3013 rtkit-daemon[1165]: Supervising 12 threads of 6 processes of 1 users.
+Sep 12 19:47:09 MR3013 rtkit-daemon[1165]: Supervising 12 threads of 6 processes of 1 users.
+Sep 12 19:47:09 MR3013 rtkit-daemon[1165]: Successfully made thread 5535 of process 5513 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:47:09 MR3013 rtkit-daemon[1165]: Supervising 13 threads of 7 processes of 1 users.
+Sep 12 19:47:09 MR3013 rtkit-daemon[1165]: message repeated 2 times: [ Supervising 13 threads of 7 processes of 1 users.]
+Sep 12 19:47:09 MR3013 rtkit-daemon[1165]: Successfully made thread 5534 of process 5513 (n/a) owned by '1000' RT at priority 10.
+Sep 12 19:47:09 MR3013 rtkit-daemon[1165]: Supervising 14 threads of 7 processes of 1 users.
+Sep 12 19:48:03 MR3013 org.gnome.zeitgeist.SimpleIndexer[1421]: ** (zeitgeist-fts:1999): WARNING **: Unable to get info on application://nautilus-autostart.desktop
+Sep 12 19:48:32 MR3013 systemd[1]: Starting Cleanup of Temporary Directories...
+Sep 12 19:48:32 MR3013 systemd-tmpfiles[5960]: [/usr/lib/tmpfiles.d/var.conf:14] Duplicate line for path "/var/log", ignoring.
+Sep 12 19:48:32 MR3013 systemd[1]: Started Cleanup of Temporary Directories.
+Sep 12 19:49:04 MR3013 org.gnome.zeitgeist.SimpleIndexer[1421]: ** (zeitgeist-fts:1999): WARNING **: Unable to get info on application://nautilus-autostart.desktop
+Sep 12 19:51:36 MR3013 org.gnome.zeitgeist.SimpleIndexer[1421]: ** (zeitgeist-fts:1999): WARNING **: Unable to get info on application://nautilus-autostart.desktop
+Sep 12 19:53:43 MR3013 kernel: [  485.246260] Unloaded interceptor!Interceptor: Found syscall table at address: 0xC17EE180
+Sep 12 19:53:50 MR3013 kernel: [ 1233.581128] Loaded interceptor!<6>[ 1240.477468] Intercepted sys_call_cs3013_syscall2
+Sep 12 19:54:51 MR3013 kernel: [ 1240.477471] list_not_empty1
+Sep 12 19:54:51 MR3013 kernel: [ 1301.938012] Intercepted sys_call_cs3013_syscall2
+Sep 12 19:55:20 MR3013 kernel: [ 1301.938014] list_not_empty1
+Sep 12 19:55:27 MR3013 kernel: [ 1330.695188] Unloaded interceptor!Interceptor: Found syscall table at address: 0xC17EE180
+Sep 12 19:55:35 MR3013 kernel: [ 1337.196245] Loaded interceptor!<6>[ 1345.864135] Intercepted sys_call_cs3013_syscall2
+Sep 12 19:55:50 MR3013 kernel: [ 1345.864137] list_not_empty1
+Sep 12 19:55:50 MR3013 kernel: [ 1360.514039] Intercepted sys_call_cs3013_syscall2
+Sep 12 19:57:16 MR3013 kernel: [ 1360.514041] list_not_empty1
+Sep 12 19:57:53 MR3013 kernel: [ 1446.148042] Unloaded interceptor!Interceptor: Found syscall table at address: 0xC17EE180
+Sep 12 19:58:02 MR3013 kernel: [ 1483.575382] Loaded interceptor!<6>[ 1492.636034] Intercepted sys_call_cs3013_syscall2
+Sep 12 20:03:11 MR3013 kernel: [ 1492.636036] good
+Sep 12 20:03:23 MR3013 kernel: [ 1801.917691] Unloaded interceptor!Interceptor: Found syscall table at address: 0xC17EE180
+Sep 12 20:03:42 MR3013 kernel: [ 1813.321078] Loaded interceptor!<6>[ 1832.989372] Intercepted sys_call_cs3013_syscall2
+Sep 12 20:05:01 MR3013 kernel: [ 1832.989374] good
+Sep 12 20:05:01 MR3013 kernel: [ 1911.680824] Intercepted sys_call_cs3013_syscall2
+Sep 12 20:07:31 MR3013 kernel: [ 1911.680825] good
+Sep 12 20:07:41 MR3013 kernel: [ 2061.609731] Unloaded interceptor!Interceptor: Found syscall table at address: 0xC17EE180
+Sep 12 20:07:59 MR3013 kernel: [ 2072.018442] Loaded interceptor!<6>[ 2089.122633] Intercepted sys_call_cs3013_syscall2
+]0;mike@MR3013: ~/Desktop/Project2/Phase2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2/Phase2[00m$ exit
+exit
+
+Script done on Thu 12 Sep 2019 08:08:21 PM EDT

@@ -1,0 +1,120 @@
+Michael Rossetti and Harrison Burack
+
+Script started on Tue 10 Sep 2019 03:44:57 PM EDT
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ make
+make -C /lib/modules/4.4.186mfrossetti/build M=/home/mike/Desktop/Project2 modules
+make[1]: Entering directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+  CC [M]  /home/mike/Desktop/Project2/phase1.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/mike/Desktop/Project2/phase1.mod.o
+  LD [M]  /home/mike/Desktop/Project2/phase1.ko
+make[1]: Leaving directory '/usr/src/linux-source-4.4.0/linux-source-4.4.0'
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ sudo insmod phase1.ko
+[sudo] password for mike: 
+insmod: ERROR: could not insert module phase1.ko: File exists
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ sudo insmod phase1.komake[Kexitsudo rmmod mymodule.kocript sysCall1Phase1.txt[14Pcd Project2script sysCall1Phase1tail -n 20 /var/log/syslog[17P./programtail -n 20 /var/log/syslog[5Pscript sysCall1Phase1tail -n 20 /var/log/syslog[C[1P /var/log/syslog[1P /var/log/syslog1 /var/log/syslog0 /var/log/syslog0 /var/log/syslog[C /var/log/syslog
+Sep 10 15:45:46 MR3013 kernel: [ 5724.975714] User 1000 is closing file descriptor 16
+Sep 10 15:45:46 MR3013 kernel: [ 5724.980535] User 1000 is opening /usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-B.ttf
+Sep 10 15:45:46 MR3013 kernel: [ 5724.980547] User 1000 is closing file descriptor 16
+Sep 10 15:45:46 MR3013 kernel: [ 5725.319700] User 1000 is opening /home/mike/.local/share/recently-used.xbel
+Sep 10 15:45:46 MR3013 kernel: [ 5725.319728] User 1000 is closing file descriptor 11
+Sep 10 15:45:46 MR3013 kernel: [ 5725.320563] User 1000 is opening /home/mike/.local/share/recently-used.xbel
+Sep 10 15:45:46 MR3013 kernel: [ 5725.320579] User 1000 is closing file descriptor 22
+Sep 10 15:45:46 MR3013 kernel: [ 5725.321004] User 1000 is opening /home/mike/.local/share/recently-used.xbel
+Sep 10 15:45:46 MR3013 kernel: [ 5725.321020] User 1000 is closing file descriptor 16
+Sep 10 15:45:46 MR3013 kernel: [ 5725.321594] User 1000 is opening /home/mike/.local/share/recently-used.xbel
+Sep 10 15:45:46 MR3013 kernel: [ 5725.321606] User 1000 is closing file descriptor 59
+Sep 10 15:45:48 MR3013 kernel: [ 5726.581715] User 1000 is closing file descriptor 16
+Sep 10 15:45:48 MR3013 kernel: [ 5726.582200] User 1000 is closing file descriptor 16
+Sep 10 15:45:48 MR3013 kernel: [ 5726.583242] User 1000 is closing file descriptor 13
+Sep 10 15:45:48 MR3013 kernel: [ 5726.589314] User 1000 is opening /home/mike/.config/dconf/user.24QV7Z
+Sep 10 15:45:48 MR3013 kernel: [ 5726.592471] User 1000 is closing file descriptor 7
+Sep 10 15:45:48 MR3013 kernel: [ 5726.592588] User 1000 is opening /run/user/1000/dconf/user
+Sep 10 15:45:48 MR3013 kernel: [ 5726.592606] User 1000 is closing file descriptor 7
+Sep 10 15:45:48 MR3013 kernel: [ 5726.627001] User 1000 is opening /home/mike/.config/gedit/accels
+Sep 10 15:45:48 MR3013 kernel: [ 5726.627042] User 1000 is closing file descriptor 16
+Sep 10 15:45:48 MR3013 kernel: [ 5726.627385] User 1000 is opening /home/mike/.local/share/recently-used.xbel.ADYU7Z
+Sep 10 15:45:48 MR3013 kernel: [ 5726.629339] User 1000 is closing file descriptor 16
+Sep 10 15:45:48 MR3013 kernel: [ 5726.634180] User 1000 is closing file descriptor 30
+Sep 10 15:45:48 MR3013 kernel: [ 5726.657115] User 1000 is closing file descriptor 13
+Sep 10 15:45:48 MR3013 kernel: [ 5726.666126] User 1000 is closing file descriptor 19
+Sep 10 15:45:48 MR3013 kernel: [ 5726.669100] User 1000 is closing file descriptor 25
+Sep 10 15:45:48 MR3013 kernel: [ 5726.670160] User 1000 is closing file descriptor 71
+Sep 10 15:45:48 MR3013 kernel: [ 5726.857635] User 1000 is closing file descriptor 30
+Sep 10 15:45:48 MR3013 kernel: [ 5726.858073] User 1000 is closing file descriptor 30
+Sep 10 15:45:48 MR3013 kernel: [ 5726.891600] User 1000 is closing file descriptor 30
+Sep 10 15:45:48 MR3013 kernel: [ 5726.977878] User 1000 is opening /home/mike/.local/share/recently-used.xbel
+Sep 10 15:45:48 MR3013 kernel: [ 5726.977909] User 1000 is closing file descriptor 11
+Sep 10 15:45:48 MR3013 kernel: [ 5726.978756] User 1000 is opening /home/mike/.local/share/recently-used.xbel
+Sep 10 15:45:48 MR3013 kernel: [ 5726.978770] User 1000 is closing file descriptor 22
+Sep 10 15:45:48 MR3013 kernel: [ 5726.979411] User 1000 is opening /home/mike/.local/share/recently-used.xbel
+Sep 10 15:45:48 MR3013 kernel: [ 5726.979421] User 1000 is closing file descriptor 59
+Sep 10 15:45:49 MR3013 kernel: [ 5727.995880] User 1000 is opening /home/mike/.local/share/zeitgeist/fts.index/postlist.tmp
+Sep 10 15:45:49 MR3013 kernel: [ 5727.997935] User 1000 is closing file descriptor 16
+Sep 10 15:45:49 MR3013 kernel: [ 5727.998722] User 1000 is opening /home/mike/.local/share/zeitgeist/fts.index/position.tmp
+Sep 10 15:45:49 MR3013 kernel: [ 5728.000154] User 1000 is closing file descriptor 16
+Sep 10 15:45:49 MR3013 kernel: [ 5728.000691] User 1000 is opening /home/mike/.local/share/zeitgeist/fts.index/termlist.tmp
+Sep 10 15:45:49 MR3013 kernel: [ 5728.001928] User 1000 is closing file descriptor 16
+Sep 10 15:45:49 MR3013 kernel: [ 5728.002526] User 1000 is opening /home/mike/.local/share/zeitgeist/fts.index/record.tmp
+Sep 10 15:45:49 MR3013 kernel: [ 5728.003891] User 1000 is closing file descriptor 16
+Sep 10 15:45:55 MR3013 kernel: [ 5733.812196] User 1000 is closing file descriptor 4
+Sep 10 15:45:55 MR3013 kernel: [ 5733.812220] User 1000 is closing file descriptor 5
+Sep 10 15:46:01 MR3013 kernel: [ 5739.991141] User 1000 is opening /etc/localtime
+Sep 10 15:46:01 MR3013 kernel: [ 5739.991162] User 1000 is closing file descriptor 11
+Sep 10 15:46:01 MR3013 kernel: [ 5739.991218] User 1000 is opening /etc/localtime
+Sep 10 15:46:01 MR3013 kernel: [ 5739.991223] User 1000 is closing file descriptor 11
+Sep 10 15:46:11 MR3013 kernel: [ 5750.003286] User 1000 is opening /run/user/1000/dconf/user
+Sep 10 15:46:11 MR3013 kernel: [ 5750.003304] User 1000 is closing file descriptor 19
+Sep 10 15:46:11 MR3013 kernel: [ 5750.003307] User 1000 is opening /home/mike/.config/dconf/user
+Sep 10 15:46:11 MR3013 kernel: [ 5750.003315] User 1000 is closing file descriptor 19
+Sep 10 15:46:32 MR3013 kernel: [ 5771.000545] User 1000 is opening /etc/fstab
+Sep 10 15:46:32 MR3013 kernel: [ 5771.000586] User 1000 is closing file descriptor 19
+Sep 10 15:46:32 MR3013 kernel: [ 5771.000591] User 1000 is opening /proc/mounts
+Sep 10 15:46:32 MR3013 kernel: [ 5771.000720] User 1000 is closing file descriptor 19
+Sep 10 15:46:32 MR3013 kernel: [ 5771.339203] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
+Sep 10 15:46:32 MR3013 kernel: [ 5771.339336] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite-wal
+Sep 10 15:46:32 MR3013 kernel: [ 5771.339648] User 1000 is opening /proc/self/mountinfo
+Sep 10 15:46:32 MR3013 kernel: [ 5771.339686] User 1000 is closing file descriptor 80
+Sep 10 15:46:32 MR3013 kernel: [ 5771.339819] User 1000 is closing file descriptor 76
+Sep 10 15:46:32 MR3013 kernel: [ 5771.339845] User 1000 is closing file descriptor 59
+Sep 10 15:46:32 MR3013 kernel: [ 5771.339999] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
+Sep 10 15:46:32 MR3013 kernel: [ 5771.340065] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite-wal
+Sep 10 15:46:32 MR3013 kernel: [ 5771.340305] User 1000 is opening /proc/self/mountinfo
+Sep 10 15:46:32 MR3013 kernel: [ 5771.340333] User 1000 is closing file descriptor 80
+Sep 10 15:46:32 MR3013 kernel: [ 5771.340436] User 1000 is closing file descriptor 76
+Sep 10 15:46:32 MR3013 kernel: [ 5771.340456] User 1000 is closing file descriptor 59
+Sep 10 15:46:32 MR3013 kernel: [ 5771.341330] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/1657114595AmcateirvtiSty.sqlite
+Sep 10 15:46:32 MR3013 kernel: [ 5771.341408] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/1657114595AmcateirvtiSty.sqlite-wal
+Sep 10 15:46:32 MR3013 kernel: [ 5771.341679] User 1000 is opening /proc/self/mountinfo
+Sep 10 15:46:32 MR3013 kernel: [ 5771.341706] User 1000 is closing file descriptor 80
+Sep 10 15:46:32 MR3013 kernel: [ 5771.342098] User 1000 is opening /home/mike/.cache/mozilla/firefox/zy28rrr9.default-release/thumbnails/6083f082089a3a45892b3ca4daf3b973.png
+Sep 10 15:46:32 MR3013 kernel: [ 5771.342106] User 1000 is closing file descriptor 80
+Sep 10 15:46:32 MR3013 kernel: [ 5771.342122] User 1000 is opening /home/mike/.cache/mozilla/firefox/zy28rrr9.default-release/thumbnails/998ce244dce4b823b635db3d63eb0e76.png
+Sep 10 15:46:32 MR3013 kernel: [ 5771.342127] User 1000 is closing file descriptor 80
+Sep 10 15:46:32 MR3013 kernel: [ 5771.350360] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite
+Sep 10 15:46:32 MR3013 kernel: [ 5771.350481] User 1000 is opening /home/mike/.mozilla/firefox/zy28rrr9.default-release/storage/permanent/chrome/idb/3870112724rsegmnoittet-es.sqlite-wal
+Sep 10 15:46:32 MR3013 kernel: [ 5771.350767] User 1000 is opening /proc/self/mountinfo
+Sep 10 15:46:32 MR3013 kernel: [ 5771.350804] User 1000 is closing file descriptor 100
+Sep 10 15:46:44 MR3013 kernel: [ 5783.352716] User 1000 is closing file descriptor 76
+Sep 10 15:46:44 MR3013 kernel: [ 5783.352778] User 1000 is closing file descriptor 59
+Sep 10 15:46:44 MR3013 kernel: [ 5783.352971] User 1000 is closing file descriptor 91
+Sep 10 15:46:44 MR3013 kernel: [ 5783.353022] User 1000 is closing file descriptor 80
+Sep 10 15:46:48 MR3013 kernel: [ 5786.638690] User 1000 is opening /home/mike/.local/share/gvfs-metadata/home.SDPU7Z
+Sep 10 15:46:48 MR3013 kernel: [ 5786.641898] User 1000 is closing file descriptor 9
+Sep 10 15:46:48 MR3013 kernel: [ 5786.641924] User 1000 is opening /home/mike/.local/share/gvfs-metadata/home-cd40f630.log.5ZLU7Z
+Sep 10 15:46:48 MR3013 kernel: [ 5786.641976] User 1000 is closing file descriptor 9
+Sep 10 15:46:48 MR3013 kernel: [ 5786.641986] User 1000 is opening /home/mike/.local/share/gvfs-metadata/home
+Sep 10 15:46:48 MR3013 kernel: [ 5786.641995] User 1000 is opening /home/mike/.local/share/gvfs-metadata
+Sep 10 15:46:48 MR3013 kernel: [ 5786.643695] User 1000 is closing file descriptor 10
+Sep 10 15:46:48 MR3013 kernel: [ 5786.643714] User 1000 is closing file descriptor 9
+Sep 10 15:46:48 MR3013 kernel: [ 5786.643733] User 1000 is closing file descriptor 8
+Sep 10 15:46:48 MR3013 kernel: [ 5786.643736] User 1000 is closing file descriptor 7
+Sep 10 15:46:48 MR3013 kernel: [ 5786.643739] User 1000 is opening /home/mike/.local/share/gvfs-metadata/home
+Sep 10 15:46:48 MR3013 kernel: [ 5786.643748] User 1000 is opening /home/mike/.local/share/gvfs-metadata/home-cd40f630.log
+Sep 10 15:46:55 MR3013 kernel: [ 5794.002305] User 1000 is closing file descriptor 4
+Sep 10 15:46:55 MR3013 kernel: [ 5794.002330] User 1000 is closing file descriptor 5
+]0;mike@MR3013: ~/Desktop/Project2[01;32mmike@MR3013[00m:[01;34m~/Desktop/Project2[00m$ ei[Kxit
+exit
+
+Script done on Tue 10 Sep 2019 03:47:57 PM EDT
