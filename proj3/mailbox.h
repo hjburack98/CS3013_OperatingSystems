@@ -7,10 +7,10 @@
 #define REPLY 2
 
 struct msg {
-	int iSender; /* sender of the message (0 .. number-of-threads) */
-	int type;    /* its type */
-	int value1;  /* first value */
-	int value2;  /* second value */
+	int iFrom; // who sent the message
+	int value;    // its value
+	int cnt;  // count of operaions 
+	int tot;  // total time
 };
 
 // global variables
