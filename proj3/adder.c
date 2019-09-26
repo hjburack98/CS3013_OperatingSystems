@@ -58,10 +58,11 @@ int main(int argc, char *argv[]) {
     //read from input lines
         char inputStr[100];
         int sscanfResult;
-    while(1){
         fgets(inputStr, 100, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
-        if(sscanfResult != 2 || threadIndex > inputThreads)
+        
+    while(sscanfResult == 2){
+        if(threadIndex > inputThreads)
            YEET;
         
         struct msg *sentMessage;
@@ -72,7 +73,10 @@ int main(int argc, char *argv[]) {
         sentMessage->value = valToAdd;
         sentMessage->cnt = 0;
         sentMessage->tot = 0;
-        SendMsg(threadIndex, sentMessage);    
+        SendMsg(threadIndex, sentMessage);   
+
+        fgets(inputStr, 100, stdin);
+        sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
     }
 
 
