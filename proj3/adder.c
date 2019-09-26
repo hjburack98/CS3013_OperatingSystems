@@ -69,9 +69,8 @@ int main(int argc, char *argv[]) {
         
         struct msg *sentMessage;
         sentMessage = (struct msg *)malloc(sizeof(struct msg));
-        
-        //seg fault
-        sentMessage->iFrom = 0;
+
+        sentMessage->iFrom = threadIndex;
         sentMessage->value = valToAdd;
         sentMessage->cnt = 0;
         sentMessage->tot = 0;
@@ -92,19 +91,20 @@ int main(int argc, char *argv[]) {
     terminationMessage = (struct msg *)malloc(sizeof(struct msg));
 
     for(i = 0; i < inputThreads; i++){
-        terminationMessage->iFrom = 0;
+        terminationMessage->iFrom = i + 1;
         terminationMessage->value = -1;
         terminationMessage->cnt = 0;
         terminationMessage->tot = 0;
         SendMsg(i + 1, terminationMessage);
-    }
-    
 
-    // //recieve all of the messages from adder
-    // for(i = 0; i < inputThreads; i++){
-    //     printf("The result from thread %d is %d from %d operations during %d secs.", 
-    //     allMailboxes[i]->iFrom, allMailboxes[i]->value, allMailboxes[i]->cnt, allMailboxes[i]->tot);
-    // }
+        struct msg *returnMessage;
+        returnMessage = (struct msg *)malloc(sizeof(struct msg));
+
+        RecvMsg(i +1, returnMessage);
+        printf("The result from thred %d is %d from %d operations during %d secs.",
+            returnMessage->iFrom, returnMessage->value, returnMessage->cnt, returnMessage->tot);
+
+    }
 
     for(i = 0; i < inputThreads; i++){
         pthread_join(allThreads[i], NULL);
