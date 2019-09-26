@@ -75,10 +75,12 @@ int main(int argc, char *argv[]) {
         SendMsg(threadIndex, sentMessage);    
     }
 
-    //Send termination message
-    for(i = 0; i < inputThreads; i++){
-        struct msg *terminationMessage;
 
+    //Send termination message
+    struct msg *terminationMessage;
+    terminationMessage = (struct msg *)malloc(sizeof(struct msg));
+
+    for(i = 0; i < inputThreads; i++){
         terminationMessage->iFrom = 0;
         terminationMessage->value = -1;
         terminationMessage->cnt = 0;
@@ -124,6 +126,7 @@ void *adder(void *arg) {
 
         if (recievedMessage->value == -1)
         {
+            running = 0;
             break;
         }
         
