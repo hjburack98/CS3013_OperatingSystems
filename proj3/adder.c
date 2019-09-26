@@ -77,8 +77,9 @@ int main(int argc, char *argv[]) {
         SendMsg(threadIndex, sentMessage); 
 
         printf("\n");  
-        fgets(inputStr, 100, stdin);
-        sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
+        char nextInput[100];
+        fgets(nextInput, 100, stdin);
+        sscanfResult = sscanf(nextInput, "%d %d", &valToAdd, &threadIndex);
     }
 
 
