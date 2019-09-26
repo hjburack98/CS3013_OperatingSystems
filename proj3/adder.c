@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
         int sscanfResult;
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
-        printf("%f", sscanfResult);
+        printf("SScanfResult: %f\n", sscanfResult);
 
 
     while(sscanfResult == 2){
