@@ -60,22 +60,17 @@ int main(int argc, char *argv[]) {
     //read from input lines
         char inputStr[256];
         int sscanfResult;
- 
-
-    while(1){
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
-
-        if(sscanfResult != 2){
-            YEET;
-        }
-
-        if(threadIndex > inputThreads){
-            YEET;
-        }
         struct msg *sentMessage;
         sentMessage = (struct msg *)malloc(sizeof(struct msg));
 
+    while(sscanfResult == 2){
+        if(threadIndex > inputThreads)
+        {
+            break;
+        }
+        
         sentMessage->iFrom = threadIndex;
         sentMessage->value = valToAdd;
         sentMessage->cnt = 0;
