@@ -27,8 +27,10 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    //set number of input threads
-    inputThreads = atoi(argv[1]);
+    else{
+        //set number of input threads
+        inputThreads = atoi(argv[1]);
+    }
     
     //allocate memory
     allMailboxes = (struct msg **)malloc((inputThreads + 1) * sizeof(struct msg *));
@@ -76,9 +78,8 @@ int main(int argc, char *argv[]) {
         SendMsg(threadIndex, sentMessage); 
 
         printf("\n");  
-        /*char nextInput[256];
-        fgets(nextInput, 256, stdin);
-        sscanfResult = sscanf(nextInput, "%d %d", &valToAdd, &threadIndex); */
+
+        //seg fault
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
     }
