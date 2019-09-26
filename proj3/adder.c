@@ -60,15 +60,14 @@ int main(int argc, char *argv[]) {
         int sscanfResult;
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
-        printf("SScanfResult: %f\n", sscanfResult);
-
+        struct msg *sentMessage;
+        sentMessage = (struct msg *)malloc(sizeof(struct msg));
 
     while(sscanfResult == 2){
         if(threadIndex > inputThreads)
            YEET;
         
-        struct msg *sentMessage;
-        sentMessage = (struct msg *)malloc(sizeof(struct msg));
+        
 
         sentMessage->iFrom = threadIndex;
         sentMessage->value = valToAdd;
@@ -133,7 +132,7 @@ void *adder(void *arg) {
 
 
     while(running != 0){
-        RecvMsg(index, &recievedMessage);
+        RecvMsg(index, recievedMessage);
 
         if (recievedMessage->value == -1)
         {
