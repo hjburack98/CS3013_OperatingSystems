@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
         struct msg *sentMessage;
         sentMessage = (struct msg *)malloc(sizeof(struct msg));
 
-    while(sscanfResult == 2 && threadIndex < inputThreads){
+    while(sscanfResult == 2){
         if(threadIndex > inputThreads)
         {
             break;
