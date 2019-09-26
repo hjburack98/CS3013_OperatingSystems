@@ -66,6 +66,7 @@ int main(int argc, char *argv[]) {
         sentMessage = (struct msg *)malloc(sizeof(struct msg));
 
     while(sscanfResult == 2){
+        printf(sscanfResult);
         break;
         
         sentMessage->iFrom = threadIndex;
