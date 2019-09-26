@@ -84,6 +84,7 @@ int main(int argc, char *argv[]) {
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
     }
+    printf("Ended while loop");
 
 
     //Send termination message
