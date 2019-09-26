@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
         int sscanfResult;
         fgets(inputStr, 100, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
-        
+
     while(sscanfResult == 2){
         if(threadIndex > inputThreads)
            YEET;
@@ -74,7 +74,6 @@ int main(int argc, char *argv[]) {
         sentMessage->cnt = 0;
         sentMessage->tot = 0;
         SendMsg(threadIndex, sentMessage);   
-
         fgets(inputStr, 100, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
     }
@@ -93,11 +92,11 @@ int main(int argc, char *argv[]) {
     }
     
 
-    //recieve all of the messages from adder
-    for(i = 0; i < inputThreads; i++){
-        printf("The result from thread %d is %d from %d operations during %d secs.", 
-        allMailboxes[i]->iFrom, allMailboxes[i]->value, allMailboxes[i]->cnt, allMailboxes[i]->tot);
-    }
+    // //recieve all of the messages from adder
+    // for(i = 0; i < inputThreads; i++){
+    //     printf("The result from thread %d is %d from %d operations during %d secs.", 
+    //     allMailboxes[i]->iFrom, allMailboxes[i]->value, allMailboxes[i]->cnt, allMailboxes[i]->tot);
+    // }
 
     for(i = 0; i < inputThreads; i++){
         pthread_join(allThreads[i], NULL);

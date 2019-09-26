@@ -10,6 +10,7 @@ int SendMsg(int iTo, struct msg *pMsg) {
 	sem_wait(semSend[iTo]); // wait until the mailbox is empty
 
 	allMailboxes[iTo] = pMsg;
+	printf("%d %d %d %d", pMsg->iFrom, pMsg->value, pMsg->cnt, pMsg->tot);
 
 	sem_post(semRecieve[iTo]); // you have mail!
 
