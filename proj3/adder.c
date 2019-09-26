@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 
     //Check to see if arguments are good to go
     if(argc != 2){
-        printf("Input line should be './adder numOfThreads");
+        printf("Input line should be './adder numOfThreads\n");
         exit(1);
     }
     else if(atoi(argv[1]) > 10){
@@ -63,7 +63,9 @@ int main(int argc, char *argv[]) {
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
         if(sscanfResult != 2 || threadIndex > inputThreads)
            YEET;
-        struct msg *sentMessage = NULL;
+        
+        struct msg *sentMessage;
+        sentMessage = (struct msg *)malloc(sizeof(struct msg));
         
         //seg fault
         sentMessage->iFrom = 0;
@@ -73,7 +75,19 @@ int main(int argc, char *argv[]) {
         SendMsg(threadIndex, sentMessage);    
     }
 
+    //Send termination message
+    for(i = 0; i < inputThreads; i++){
+        struct msg *terminationMessage;
 
+        terminationMessage->iFrom = 0;
+        terminationMessage->value = -1;
+        terminationMessage->cnt = 0;
+        terminationMessage->tot = 0;
+        SendMsg(i + 1, terminationMessage);
+    }
+    
+
+    //recieve all of the messages from adder
     for(i = 0; i < inputThreads; i++){
         printf("The result from thread %d is %d from %d operations during %d secs.", 
         allMailboxes[i]->iFrom, allMailboxes[i]->value, allMailboxes[i]->cnt, allMailboxes[i]->tot);
@@ -95,8 +109,6 @@ int main(int argc, char *argv[]) {
 
 }
 
-/*//More to change!!!*/
-//Specifically Time
 void *adder(void *arg) {
     int index = (intptr_t) arg;
     int addedVal = 0;
@@ -110,8 +122,14 @@ void *adder(void *arg) {
     while(running != 0){
         RecvMsg(index, &recievedMessage);
 
+        if (recievedMessage->value == -1)
+        {
+            break;
+        }
+        
         count++;
         addedVal += recievedMessage->value;
+
     }
 
     int endTimer = time(NULL);
