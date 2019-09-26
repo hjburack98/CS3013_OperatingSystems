@@ -61,7 +61,9 @@ int main(int argc, char *argv[]) {
         fgets(inputStr, 100, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
 
+
     while(sscanfResult == 2){
+        printf("\n");
         if(threadIndex > inputThreads)
            YEET;
         
