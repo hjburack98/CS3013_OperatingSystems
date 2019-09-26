@@ -144,6 +144,8 @@ void *adder(void *arg) {
         count++;
         addedVal += recievedMessage->value;
 
+        printf("gets here");
+
     }
 
     int endTimer = time(NULL);
