@@ -68,10 +68,14 @@ int main(int argc, char *argv[]) {
         sentMessage->value = valToAdd;
         sentMessage->cnt = 0;
         sentMessage->tot = 0;
-        sendMsg(threadIndex, sentMessage);    
+        SendMsg(threadIndex, sentMessage);    
     }
 
-    //PRINT HERE
+
+    for(i = 0; i < inputThreads; i++){
+        printf("The result from thread %d is %d from %d operations during %d secs.", 
+        allMailboxes[i]->iFrom, allMailboxes[i]->value, allMailboxes[i]->cnt, allMailboxes[i]->tot);
+    }
 
     for(i = 0; i < inputThreads; i++){
         pthread_join(allThreads[i], NULL);
@@ -97,8 +101,8 @@ void *adder(void *arg) {
     int count = 0;
 	struct msg *recievedMessage;
     struct msg *sentMessage;
-    int running = 1;
-    int time = 1; //will change
+    int running = 1; //
+    int startTimer = time(NULL);
 
 
     while(running != 0){
@@ -108,10 +112,13 @@ void *adder(void *arg) {
         addedVal += recievedMessage->value;
     }
 
+    int endTimer = time(NULL);
+    int totalTime = endTimer - startTimer;
+
     sentMessage->iFrom = index;
     sentMessage->value = addedVal;
     sentMessage->cnt = count;
-    sentMessage->tot = time;
+    sentMessage->tot = totalTime;
 
     SendMsg(0, sentMessage);
 
