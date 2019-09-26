@@ -56,9 +56,9 @@ int main(int argc, char *argv[]) {
     }
 
     //read from input lines
-        char inputStr[100];
+        char inputStr[256];
         int sscanfResult;
-        fgets(inputStr, 100, stdin);
+        fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
 
 
@@ -77,8 +77,8 @@ int main(int argc, char *argv[]) {
         SendMsg(threadIndex, sentMessage); 
 
         printf("\n");  
-        char nextInput[100];
-        fgets(nextInput, 100, stdin);
+        char nextInput[256];
+        fgets(nextInput, 256, stdin);
         sscanfResult = sscanf(nextInput, "%d %d", &valToAdd, &threadIndex);
     }
 
