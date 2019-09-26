@@ -63,7 +63,6 @@ int main(int argc, char *argv[]) {
 
 
     while(sscanfResult == 2){
-        printf("\n");
         if(threadIndex > inputThreads)
            YEET;
         
@@ -75,7 +74,9 @@ int main(int argc, char *argv[]) {
         sentMessage->value = valToAdd;
         sentMessage->cnt = 0;
         sentMessage->tot = 0;
-        SendMsg(threadIndex, sentMessage);   
+        SendMsg(threadIndex, sentMessage); 
+
+        printf("\n");  
         fgets(inputStr, 100, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
     }
