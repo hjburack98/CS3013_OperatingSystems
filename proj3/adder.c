@@ -127,7 +127,9 @@ void *adder(void *arg) {
     int addedVal = 0;
     int count = 0;
 	struct msg *recievedMessage;
+    recievedMessage = (struct msg *)malloc(sizeof(struct msg));
     struct msg *sentMessage;
+    sentMessage = (struct msg *)malloc(sizeof(struct msg));
     int running = 1;
     int startTimer = time(NULL);
 
@@ -143,8 +145,6 @@ void *adder(void *arg) {
         
         count++;
         addedVal += recievedMessage->value;
-
-        printf("gets here");
 
     }
 
