@@ -16,8 +16,8 @@ struct msg {
 // global variables
 struct msg **allMailboxes;
 pthread_t **allThreads;        
-sem_t **semArray1;
-sem_t **semArray2;
+sem_t **semSend;
+sem_t **semRecieve;
 int inputThreads;
 
 int SendMsg(int iTo, struct msg *pMsg);

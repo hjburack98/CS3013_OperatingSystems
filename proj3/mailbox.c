@@ -7,17 +7,17 @@ int SendMsg(int iTo, struct msg *pMsg) {
 		return 1;
 	}
 	
-	sem_wait(semArray1[iTo]); // wait until the mailbox is empty
+	sem_wait(semSend[iTo]); // wait until the mailbox is empty
 
 	allMailboxes[iTo] = pMsg;
 
-	sem_post(semArray2[iTo]); // you have mail!
+	sem_post(semRecieve[iTo]); // you have mail!
 
 	return 0;
 }
 
 int RecvMsg(int iFrom, struct msg *pMsg) {
-	sem_wait(semArray2[iFrom]); // wait for mail to arrive
+	sem_wait(semRecieve[iFrom]); // wait for mail to arrive
 
 	if (iFrom < 0 || iFrom > inputThreads + 1) {
 		printf("called recvMsg with invalid arguments\n");
@@ -26,7 +26,7 @@ int RecvMsg(int iFrom, struct msg *pMsg) {
 	
 	*pMsg = *allMailboxes[iFrom];
 
-	sem_post(semArray1[iFrom]); // mark this mailbox empty
+	sem_post(semSend[iFrom]); // mark this mailbox empty
     
 	return 0;
 }

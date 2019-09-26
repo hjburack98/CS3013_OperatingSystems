@@ -7,13 +7,11 @@
 #include "mailbox.h"
 
 #define MAXTHREAD 10
-
+#define YEET break
 void *adder(void *arg);
 
 int main(int argc, char *argv[]) {
     int threadIndex, valToAdd, i;
-    struct msg *received;
-	struct msg **mailToSend;
 
     //Check to see if arguments are good to go
     if(argc != 2){
@@ -34,72 +32,92 @@ int main(int argc, char *argv[]) {
     
     //allocate memory
     allMailboxes = (struct msg **)malloc((inputThreads + 1) * sizeof(struct msg *));
-	mailToSend = (struct msg **)malloc(inputThreads * sizeof(struct msg *));
-    semArray1 = (sem_t **)malloc((inputThreads + 1) * sizeof(sem_t *));
-	semArray2 = (sem_t **)malloc((inputThreads + 1) * sizeof(sem_t *));
+    semSend = (sem_t **)malloc((inputThreads + 1) * sizeof(sem_t *));
+	semRecieve = (sem_t **)malloc((inputThreads + 1) * sizeof(sem_t *));
     allThreads = (pthread_t **)malloc(inputThreads * sizeof(pthread_t *));
-	received = (struct msg *)malloc(sizeof(struct msg));
 
     //make mailboxes
     for (i = 0; i <= inputThreads; i++) {
 		// allocate more memory
-		semArray1[i] = (sem_t *)malloc(sizeof(sem_t));
-		semArray2[i] = (sem_t *)malloc(sizeof(sem_t));
-		sem_init(semArray1[i], 0, 1); //psem
-		sem_init(semArray2[i], 0, 0); //csem
+		semSend[i] = (sem_t *)malloc(sizeof(sem_t));
+		semRecieve[i] = (sem_t *)malloc(sizeof(sem_t));
+		sem_init(semSend[i], 0, 1); //psem
+		sem_init(semRecieve[i], 0, 0); //csem
 	}
 
-    //read from input lines
-    while(1){
-        char inputStr[100];
-        int sscanfResult;
-        fgets(inputStr, 100, stdin);
-        sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
-        if(sscanfResult != 2){
-            break;
-        }
-        if(threadIndex > inputThreads){
-            break;
+    //make threads
+    for(i = 0; i < inputThreads; i++) {
+        pthread_t pthread;
+        allThreads[i] = pthread;
+        if(pthread_create(&pthread, NULL, adder, (void *) (i+1)) != 0){
+            perror("pthread_create error");
+            exit(1);
         }
     }
 
-    // //make threads
-    // for (i = 0; i < inputThreads; i++) {
-	// 	allThreads[i] = (pthread_t *)malloc(sizeof(pthread_t *));
-	// 	if (pthread_create(allThreads[i], NULL, &adder, (void *)(intptr_t)(i + 1))) {
-	// 		printf("error creating thread %d\n", i + 1);
-	// 	}
-	// }
-
     //read from input lines
-    
+        char inputStr[100];
+        int sscanfResult;
+    while(1){
+        fgets(inputStr, 100, stdin);
+        sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
+        if(sscanfResult != 2 || threadIndex > inputThreads)
+           YEET;
+        struct msg *sentMessage;
+        sentMessage->iFrom = 0;
+        sentMessage->value = valToAdd;
+        sentMessage->cnt = 0;
+        sentMessage->tot = 0;
+        sendMsg(threadIndex, sentMessage);    
+    }
+
+    //PRINT HERE
+
+    for(i = 0; i < inputThreads; i++){
+        pthread_join(allThreads[i], NULL);
+
+        if(sem_destroy(semSend[i]) < 0){
+            perror("sem_destroy error");
+            exit(1);
+        }
+
+        if(sem_destroy(semRecieve[i]) < 0){
+            perror("sem_destroy error");
+            exit(1);
+        }
+    }
+
+
+
 
 }
 
-// /*//More to change!!!*/
-// //Specifically Time
-// void *adder(void *arg) {
-//     int index, ops, startTime, endTime;
-// 	struct msg *message;
-
-//     //start timer
-//     //startTime = time(3);
-
-//     index = (int)(intptr_t)arg;
-// 	message = (struct msg *)malloc(sizeof(struct msg));
-
-// 	RecvMsg(index, message); // wait for mail from parent
-
-//     message->iFrom = index;
-//     message->value = message->value + addedVal;
-//     message->cnt = message->cnt + 1;
-//     //TIME
+/*//More to change!!!*/
+//Specifically Time
+void *adder(void *arg) {
+    int index = (intptr_t) arg;
+    int addedVal = 0;
+    int count = 0;
+	struct msg *recievedMessage;
+    struct msg *sentMessage;
+    int running = 1;
+    int time = 1; //will change
 
 
-//     SendMsg(0, message);
+    while(running != 0){
+        RecvMsg(index, &recievedMessage);
 
-//     return (void *)0;
+        count++;
+        addedVal += recievedMessage->value;
+    }
 
+    sentMessage->iFrom = index;
+    sentMessage->value = addedVal;
+    sentMessage->cnt = count;
+    sentMessage->tot = time;
 
+    SendMsg(0, sentMessage);
+
+    return (void *)0;
     
-// }
+}
