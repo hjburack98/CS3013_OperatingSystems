@@ -63,7 +63,9 @@ int main(int argc, char *argv[]) {
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
         if(sscanfResult != 2 || threadIndex > inputThreads)
            YEET;
-        struct msg *sentMessage;
+        struct msg *sentMessage = NULL;
+        
+        //seg fault
         sentMessage->iFrom = 0;
         sentMessage->value = valToAdd;
         sentMessage->cnt = 0;
@@ -101,7 +103,7 @@ void *adder(void *arg) {
     int count = 0;
 	struct msg *recievedMessage;
     struct msg *sentMessage;
-    int running = 1; //
+    int running = 1;
     int startTimer = time(NULL);
 
 
