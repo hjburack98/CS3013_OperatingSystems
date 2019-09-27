@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <pthread.h>
 #include <stdint.h>
 #include <time.h>
@@ -70,6 +71,9 @@ int main(int argc, char *argv[]) {
         {
             break;
         }
+        if(valToAdd < 0){
+            break;
+        }
     
         sentMessage->iFrom = threadIndex;
         sentMessage->value = valToAdd;
@@ -135,7 +139,7 @@ void *adder(void *arg) {
 
 
     while(running != 0){
-        RecvMsg(index, &recievedMessage);
+        RecvMsg(index, recievedMessage);
 
         if (recievedMessage->value == -1)
         {
@@ -145,6 +149,7 @@ void *adder(void *arg) {
         
         count++;
         addedVal += recievedMessage->value;
+        sleep(1);
 
     }
 
