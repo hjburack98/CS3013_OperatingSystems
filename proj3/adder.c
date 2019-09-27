@@ -148,12 +148,11 @@ void *adder(void *arg) {
     int startTimer = time(NULL);
 
 
-    while(running != 0){
+    while(1){
         RecvMsg(index, recievedMessage);
 
         if (recievedMessage->value == -1)
         {
-            running = 0;
             break;
         }
         
