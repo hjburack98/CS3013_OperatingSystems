@@ -97,10 +97,14 @@ int main(int argc, char *argv[]) {
     terminationMessage = (struct msg *)malloc(sizeof(struct msg));
 
     for(i = 0; i < inputThreads; i++){
+        struct msg *terminationMessage;
+        terminationMessage = (struct msg *)malloc(sizeof(struct msg));
+
         terminationMessage->iFrom = i + 1;
         terminationMessage->value = -1;
         terminationMessage->cnt = 0;
         terminationMessage->tot = 0;
+
         SendMsg(i + 1, terminationMessage);
 
         struct msg *returnMessage;
