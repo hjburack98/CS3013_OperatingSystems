@@ -114,7 +114,9 @@ int main(int argc, char *argv[]) {
 
     for(i = 0; i < inputThreads; i++){
         pthread_join(allThreads[i + 1], NULL);
+    }
 
+    for(i = 0; i < inputThreads; i++){
         if(sem_destroy(semSend[i]) < 0){
             perror("sem_destroy error");
             exit(1);
