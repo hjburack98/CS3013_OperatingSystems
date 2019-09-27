@@ -136,6 +136,8 @@ int main(int argc, char *argv[]) {
     free(semRecieve);
     free(allThreads);
     free(allMailboxes);
+
+    printf("Fuck this shit im out");
     return 0;
 
 }
