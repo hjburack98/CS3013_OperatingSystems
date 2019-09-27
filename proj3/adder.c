@@ -68,7 +68,6 @@ int main(int argc, char *argv[]) {
 
     while(sscanfResult == 2){
         if(threadIndex > inputThreads){
-            printf("invalid input");
             break;
         }
 
@@ -101,13 +100,12 @@ int main(int argc, char *argv[]) {
         terminationMessage->tot = 0;
 
         SendMsg(i + 1, terminationMessage);
-        printf("TEST");
 
         struct msg *returnMessage;
         returnMessage = (struct msg *)malloc(sizeof(struct msg));
 
         RecvMsg(0, returnMessage);
-        printf("The result from thread %d is %d from %d operations during %d secs.",
+        printf("The result from thread %d is %d from %d operations during %d secs.\n",
             returnMessage->iFrom, returnMessage->value, returnMessage->cnt, returnMessage->tot);
 
     }
@@ -156,18 +154,15 @@ void *adder(void *arg) {
 
         if (recievedMessage->value == -1)
         {
-            printf("HIT HERE FOR ENDING");
             break;
         }
         
         count++;
         addedVal += recievedMessage->value;
-        printf("%d\n", addedVal);
         sleep(3);
 
     }
 
-    printf("broken out");
     int endTimer = time(NULL);
     int totalTime = endTimer - startTimer;
 
