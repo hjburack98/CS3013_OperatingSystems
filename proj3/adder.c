@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
         inputThreads = 10;
     }
     else if(atoi(argv[1]) < 1) {
-        printf("number of threads cannot be less than 1");
+        printf("number of threads cannot be less than 1\n");
         exit(1);
     }
 
@@ -159,7 +159,7 @@ void *adder(void *arg) {
         
         count++;
         addedVal += recievedMessage->value;
-        sleep(3);
+        sleep(1);
 
     }
 
