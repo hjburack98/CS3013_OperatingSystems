@@ -126,6 +126,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    sem_destroy(semSend[inputThreads]);
+    sem_destroy(semRecieve[inputThreads]);
+    free(semSend);
+    free(semRecieve);
+    free(allThreads);
+    free(allMailboxes);
+    return 0;
+
 }
 
 void *adder(void *arg) {
