@@ -66,9 +66,11 @@ int main(int argc, char *argv[]) {
         sentMessage = (struct msg *)malloc(sizeof(struct msg));
 
     while(sscanfResult == 2){
-        printf(sscanfResult);
-        break;
-        
+        if(threadIndex > inputThreads)
+        {
+            break;
+        }
+    
         sentMessage->iFrom = threadIndex;
         sentMessage->value = valToAdd;
         sentMessage->cnt = 0;
@@ -133,7 +135,7 @@ void *adder(void *arg) {
 
 
     while(running != 0){
-        RecvMsg(index, recievedMessage);
+        RecvMsg(index, &recievedMessage);
 
         if (recievedMessage->value == -1)
         {

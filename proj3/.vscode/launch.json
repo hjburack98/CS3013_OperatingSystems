@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "gcc build and debug active file",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/Users/harrisonburack/Documents/@WPI/2019-2020/A-Term/CS3013_OperatingSystems/proj3/adder",
+            "args": ["2"],
+            "stopAtEntry": false,
+            "cwd": "/Users/harrisonburack/Documents/@WPI/2019-2020/A-Term/CS3013_OperatingSystems/proj3",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "gcc build active file"
+        }
+    ]
+}
