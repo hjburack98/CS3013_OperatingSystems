@@ -101,6 +101,7 @@ int main(int argc, char *argv[]) {
         terminationMessage->tot = 0;
 
         SendMsg(i + 1, terminationMessage);
+        printf("TEST");
 
         struct msg *returnMessage;
         returnMessage = (struct msg *)malloc(sizeof(struct msg));
@@ -163,6 +164,7 @@ void *adder(void *arg) {
 
     }
 
+    printf("broken out");
     int endTimer = time(NULL);
     int totalTime = endTimer - startTimer;
 
