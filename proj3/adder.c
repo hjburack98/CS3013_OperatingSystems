@@ -158,7 +158,7 @@ void *adder(void *arg) {
         
         count++;
         addedVal += recievedMessage->value;
-        printf("%d", addedVal);
+        printf("%d\n", addedVal);
         sleep(1);
 
     }
