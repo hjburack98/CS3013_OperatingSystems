@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
         sentMessage = (struct msg *)malloc(sizeof(struct msg));
 
     while(sscanfResult == 2){
-        printf("%d", sscanfResult);
         if(threadIndex > inputThreads)
         {
             printf("invalid input");
