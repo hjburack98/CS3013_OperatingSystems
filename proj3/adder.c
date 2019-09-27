@@ -31,6 +31,7 @@ int main(int argc, char *argv[]) {
     else{
         //set number of input threads
         inputThreads = atoi(argv[1]);
+        printf("%d threads in mailbox.\n", inputThreads);
     }
     
     //allocate memory
@@ -61,6 +62,7 @@ int main(int argc, char *argv[]) {
     //read from input lines
         char inputStr[256];
         int sscanfResult;
+        printf("Enter the value that will be added to the thread, followed by the target thread: ");
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
         struct msg *sentMessage;
@@ -83,6 +85,7 @@ int main(int argc, char *argv[]) {
 
         printf("\n");  
 
+        printf("Enter the value that will be added to the thread, followed by the target thread: ");
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
     }
