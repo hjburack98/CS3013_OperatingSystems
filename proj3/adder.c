@@ -69,6 +69,7 @@ int main(int argc, char *argv[]) {
     while(sscanfResult == 2){
         if(threadIndex > inputThreads)
         {
+            printf("invalid input");
             break;
         }
         if(valToAdd < 0){
