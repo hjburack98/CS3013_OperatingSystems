@@ -113,7 +113,8 @@ int main(int argc, char *argv[]) {
     }
 
     for(i = 0; i < inputThreads; i++){
-        pthread_join(allThreads[i + 1], NULL);
+        pthread_t newPthread = allThreads[i+1];
+        pthread_join(&newPthread, NULL);
     }
 
     for(i = 0; i < inputThreads; i++){
