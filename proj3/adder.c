@@ -67,11 +67,11 @@ int main(int argc, char *argv[]) {
         sentMessage = (struct msg *)malloc(sizeof(struct msg));
 
     while(sscanfResult == 2){
-        if(threadIndex > inputThreads)
-        {
+        if(threadIndex > inputThreads){
             printf("invalid input");
             break;
         }
+
         if(valToAdd < 0){
             break;
         }
@@ -84,17 +84,13 @@ int main(int argc, char *argv[]) {
 
         printf("\n");  
 
-        //seg fault
         fgets(inputStr, 256, stdin);
         sscanfResult = sscanf(inputStr, "%d %d", &valToAdd, &threadIndex);
     }
-    printf("Ended while loop");
 
 
     //Send termination message
     //BAD CODE!!!!!!!!
-
-
     for(i = 0; i < inputThreads; i++){
         struct msg *terminationMessage;
         terminationMessage = (struct msg *)malloc(sizeof(struct msg));
@@ -156,13 +152,14 @@ void *adder(void *arg) {
 
         if (recievedMessage->value == -1)
         {
+            printf("HIT HERE FOR ENDING");
             break;
         }
         
         count++;
         addedVal += recievedMessage->value;
         printf("%d\n", addedVal);
-        sleep(1);
+        sleep(3);
 
     }
 
