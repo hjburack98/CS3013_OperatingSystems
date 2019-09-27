@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
         struct msg *terminationMessage;
         terminationMessage = (struct msg *)malloc(sizeof(struct msg));
 
-        terminationMessage->iFrom = i + 1;
+        terminationMessage->iFrom = 0;
         terminationMessage->value = -1;
         terminationMessage->cnt = 0;
         terminationMessage->tot = 0;
@@ -105,8 +105,8 @@ int main(int argc, char *argv[]) {
         struct msg *returnMessage;
         returnMessage = (struct msg *)malloc(sizeof(struct msg));
 
-        RecvMsg(i +1, returnMessage);
-        printf("The result from thred %d is %d from %d operations during %d secs.",
+        RecvMsg(i +1, &returnMessage);
+        printf("The result from thread %d is %d from %d operations during %d secs.",
             returnMessage->iFrom, returnMessage->value, returnMessage->cnt, returnMessage->tot);
 
     }
