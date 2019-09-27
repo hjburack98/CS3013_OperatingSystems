@@ -93,8 +93,8 @@ int main(int argc, char *argv[]) {
 
 
     //Send termination message
-    struct msg *terminationMessage;
-    terminationMessage = (struct msg *)malloc(sizeof(struct msg));
+    //BAD CODE!!!!!!!!
+
 
     for(i = 0; i < inputThreads; i++){
         struct msg *terminationMessage;
