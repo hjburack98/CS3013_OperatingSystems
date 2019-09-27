@@ -1,0 +1,54 @@
+Script started on Fri 27 Sep 2019 11:35:09 AM EDT
+[?1034hbash-4.2$ make clean
+rm -f adder.o mailbox.o adder
+bash-4.2$ make adder
+gcc -Wall -g -c adder.c -o adder.o
+[01m[Kadder.c:[m[K In function ‘[01m[Kmain[m[K’:
+[01m[Kadder.c:55:50:[m[K [01;35m[Kwarning: [m[Kcast to pointer from integer of different size [-Wint-to-pointer-cast]
+         if(pthread_create(&pthread, NULL, adder, (void *) (i+1)) != 0){
+[01;32m[K                                                  ^[m[K
+[01m[Kadder.c:[m[K In function ‘[01m[Kadder[m[K’:
+[01m[Kadder.c:148:9:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Krunning[m[K’ [-Wunused-variable]
+     int running = 1;
+[01;32m[K         ^[m[K
+gcc -Wall -g -c mailbox.c -o mailbox.o
+gcc -Wall -g adder.o mailbox.o -o adder -lpthread
+bash-4.2$ ./adder 0
+number of threads cannot be less than 1
+bash-4.2$ ./adder 12
+Input cannot have greater than 10 threads. Defaulting to 10 threads
+3 1
+
+9 10
+
+6 10
+
+3 10
+
+3 11
+The result from thread 1 is 3 from 1 operations during 22 secs.
+The result from thread 2 is 0 from 0 operations during 22 secs.
+The result from thread 3 is 0 from 0 operations during 22 secs.
+The result from thread 4 is 0 from 0 operations during 22 secs.
+The result from thread 5 is 0 from 0 operations during 22 secs.
+The result from thread 6 is 0 from 0 operations during 22 secs.
+The result from thread 7 is 0 from 0 operations during 22 secs.
+The result from thread 8 is 0 from 0 operations during 22 secs.
+The result from thread 9 is 0 from 0 operations during 22 secs.
+The result from thread 10 is 18 from 3 operations during 22 secs.
+bash-4.2$ ./adder 12[K[K4
+3 2
+
+5 4
+
+4 2
+
+
+The result from thread 1 is 0 from 0 operations during 10 secs.
+The result from thread 2 is 7 from 2 operations during 10 secs.
+The result from thread 3 is 0 from 0 operations during 10 secs.
+The result from thread 4 is 5 from 1 operations during 10 secs.
+bash-4.2$ exit
+exit
+
+Script done on Fri 27 Sep 2019 11:36:30 AM EDT
