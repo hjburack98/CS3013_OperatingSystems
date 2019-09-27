@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
     allMailboxes = (struct msg **)malloc((inputThreads + 1) * sizeof(struct msg *));
     semSend = (sem_t **)malloc((inputThreads + 1) * sizeof(sem_t *));
 	semRecieve = (sem_t **)malloc((inputThreads + 1) * sizeof(sem_t *));
-    allThreads = (pthread_t **)malloc(inputThreads * sizeof(pthread_t *));
+    allThreads = (pthread_t *)malloc(inputThreads * sizeof(pthread_t ));
 
     //make mailboxes
     for (i = 0; i <= inputThreads; i++) {
@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
     }
 
     for(i = 0; i < inputThreads; i++){
-        pthread_t newPthread = (pthread_t *)allThreads[i+1];
+        pthread_t newPthread = allThreads[i+1];
         (void) pthread_join(newPthread, NULL);
     }
 
