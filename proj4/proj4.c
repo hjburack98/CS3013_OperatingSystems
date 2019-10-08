@@ -38,38 +38,7 @@ int main(int argc, char** argv) {
 
         //error checking 
         if (argc > 2 && (atoi(argv[2]) <= MAX_NUM_THREADS) && (atoi(argv[2]) >= 1)) {
-            numThreads = atoi(argv[2]);
-
-            //check to see how many files exist (to make sure you don't make too many threads)
-            while(1){
-                inputLine = (char *)malloc(sizeof(char) * MAX_LINE_LENGTH);
-
-                //get input
-                inputInfo = fgets(inputLine, MAX_LINE_LENGTH, stdin);
-                if(inputInfo == NULL){
-                    YEET;
-                }
-                if(inputLine == NULL){
-                    YEET;
-                }
-
-                if(inputLine[0] == '\n'){
-                    continue;
-                }
-
-                if(inputLine[0] == '\0'){
-                    YEET;
-                }
-                else{
-                     numFiles++;
-                }
-               
-            }
-
-            if(numFiles < numThreads){
-                numThreads = numFiles;
-            }
-
+            
             printf("Running using threads. Using %d threads\n", numThreads);
 
             //allocate the right amount of space for stats
