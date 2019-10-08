@@ -21,6 +21,6 @@ struct file {
 
 void setup();
 void printStats();
-void* processFile(void *processPointer);
+void* getStats(void *file);
 
 #endif

@@ -71,12 +71,12 @@ int main(int argc, char** argv) {
         char *token = strtok(inputLine, "\n "); //remove new line and trialing spaces
         
         struct file *fileToRun;
-        fileToRun = (struct fileProcess*)malloc(sizeof(struct file));
+        fileToRun = (struct file*)malloc(sizeof(struct file));
         fileToRun->name = inputLine;
 
         if (!usingThreads) { 
             fileToRun->stats = buffer[0];
-            process_file(fileToRun);
+            getStats(fileToRun);
         }
 
         else if (usingThreads) {
@@ -84,13 +84,13 @@ int main(int argc, char** argv) {
                 threads[currentThread] = (pthread_t *)malloc(sizeof(pthread_t));
                 fileToRun->stats = buffer[currentThread];
                // printf("Dispatching thread %d on file %s\n", currThread, toProcess->file);
-                pthread_create(threads[currentThread], NULL, process_file, (void *)fileToRun);
+                pthread_create(threads[currentThread], NULL, getStats, (void *)fileToRun);
                 currentThread++;
             }
             else {
                 pthread_join(*(threads[oldestThread]), NULL);
                 fileToRun->stats = buffer[oldestThread];
-                pthread_create(threads[oldestThread], NULL, process_file, (void *)fileToRun);
+                pthread_create(threads[oldestThread], NULL, getStats, (void *)fileToRun);
 
                 if (oldestThread == numThreads -1 ) {
                     oldestThread = 0;
@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-void *process_file(void *file) {
+void *getStats(void *file) {
     struct file *fileToRun = (struct fileProcess *)file;
     char *file = fileToRun->name;
     struct stat *stats = fileToRun->stats;
