@@ -29,6 +29,11 @@ int main(int argc, char** argv) {
     int numFiles;
     struct stat **stats;
     pthread_t **threads;
+    struct timeval start, end;
+    struct rusage usage;
+
+    gettimeofday(&start, 0);
+    getrusage(RUSAGE_SELF, &usage);
 
 
     setup();
@@ -152,6 +157,15 @@ int main(int argc, char** argv) {
 
     printStats();
 
+    //print time results
+    getrusage(RUSAGE_SELF, &usage);
+    gettimeofday(&end, 0);
+    double wallClock = ((end.tv_sec - start.tv_sec)*1000) + ((double)(end.tv_usec - start.tv_usec))/1000;
+    double userTime = ((usage.ru_utime.tv_sec)*1000) + ((double)(usage.ru_utime.tv_usec))/1000;
+    double systemTime = ((usage.ru_stime.tv_sec)*1000) + ((double)(usage.ru_stime.tv_usec))/1000;
+    printf("System Time (ms): %f\n", systemTime);
+    printf("User Time (ms): %f\n", userTime);
+    printf("Wall Clock Time (ms): %f\n", wallClock);
 
     return 0;
 }
