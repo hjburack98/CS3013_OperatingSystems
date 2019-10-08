@@ -55,7 +55,7 @@ int main(int argc, char** argv){
 
         //process file
         fileToUse->stats = buffer[0];
-        getStats((void *)fileToUse);
+        getStats(fileToUse);
     }
 
 
@@ -75,7 +75,7 @@ void setup() {
     totTxtBytes = 0;
 }
 
-void getStats(void *file){
+void* getStats(void *file){
     struct file *fileToUse = (struct file *)file;
     char *name = fileToUse->name;
     struct stat *stats = fileToUse->stats;
