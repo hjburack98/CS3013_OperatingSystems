@@ -48,10 +48,13 @@ int main(int argc, char** argv) {
                 stats[i] = (struct stat*)malloc(sizeof(struct stat));
             }
         }
+
+        //not in range of threads
         else {
             printf("Can only use between 1 and 15 threads\n");
             return 0;
         }
+
         usingThreads = 1; 
         currentThread = 0;
         oldestThread = 0;
@@ -59,6 +62,7 @@ int main(int argc, char** argv) {
         //making threads
         threads = (pthread_t**)malloc(sizeof(pthread_t *) * numThreads);
     }
+
     else {
         printf("Running with serial architecture\n");
 
@@ -125,6 +129,7 @@ int main(int argc, char** argv) {
                 if (oldestThread == numThreads -1 ) {
                     oldestThread = 0;
                 }
+
                 else {
                     oldestThread++;
                 }
@@ -207,6 +212,7 @@ void *processFile(void *processPointer) {
             break;
         }
     }
+    
     if (txtBytes > 0) {
         pthread_mutex_lock(&mutex);
         totTxtBytes = totTxtBytes + txtBytes;
