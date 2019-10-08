@@ -1,0 +1,53 @@
+Script started on Tue 08 Oct 2019 02:48:05 PM EDT
+[?1034hbash-4.2$ ls-[K -1d ../../MA-2611/* | ./proj4
+Running with serial architecture
+Bad Files: 4
+Directories: 4
+Regular Files: 9
+Special Files: 0
+Bytes in Regular Files: 5953103
+Text Files: 1
+Bytes in Text Files: 134471
+System Time (ms): 58.655000
+User Time (ms): 14.912000
+Wall Clock Time (ms): 95.732000
+bash-4.2$ ls -1d ../../MA-2611/* | ./proj4 thread 15
+Running using threads. Using 15 threads
+Bad Files: 4
+Directories: 4
+Regular Files: 9
+Special Files: 0
+Bytes in Regular Files: 5953103
+Text Files: 1
+Bytes in Text Files: 134471
+System Time (ms): 65.597000
+User Time (ms): 15.137000
+Wall Clock Time (ms): 81.558000
+bash-4.2$ ls -1d ../../other/* | ./proj4
+Running with serial architecture
+Bad Files: 3
+Directories: 0
+Regular Files: 14
+Special Files: 0
+Bytes in Regular Files: 7648317
+Text Files: 7
+Bytes in Text Files: 3313117
+System Time (ms): 1351.171000
+User Time (ms): 413.052000
+Wall Clock Time (ms): 1792.089000
+bash-4.2$ ls -1d ../../other/* | ./proj4 thread 15
+Running using threads. Using 15 threads
+Bad Files: 3
+Directories: 0
+Regular Files: 14
+Special Files: 0
+Bytes in Regular Files: 7648317
+Text Files: 7
+Bytes in Text Files: 3313117
+System Time (ms): 1471.918000
+User Time (ms): 415.976000
+Wall Clock Time (ms): 726.212000
+bash-4.2$ exit
+exit
+
+Script done on Tue 08 Oct 2019 02:49:25 PM EDT

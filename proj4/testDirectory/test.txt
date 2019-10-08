@@ -1,0 +1,7 @@
+cmake-build-debug
+CMakeLists.txt
+makefile
+proj4
+proj4.c
+proj4.h
+testDirectory
