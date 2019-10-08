@@ -18,12 +18,12 @@
 #define MAX_NUM_THREADS 15
 
 int main(int argc, char** argv) {
-    int threadMode; 
-    int numThreads; /* user-specified number of threads */
-    int currThread; /* how many threads are currently running */
-    int oldestThread; /* oldest running thread */
-    int statRet, i;
-    char* inputStatus;
+    int usingThreads; 
+    int numThreads; 
+    int currentThread;
+    int oldestThread; 
+    int returnStats, i;
+    char* inputInfo;
     char* inputLine;
     struct stat **stats;
     pthread_t **threads;
@@ -35,11 +35,18 @@ int main(int argc, char** argv) {
 
     setup();
 
+    //if "thread" is the second argument
     if (argc > 1 && strcmp(argv[1], "thread") == 0) {
+
+        //error checking 
         if (argc > 2 && (atoi(argv[2]) <= MAX_NUM_THREADS) && (atoi(argv[2]) >= 1)) {
             numThreads = atoi(argv[2]);
-            printf("Running in threaded architecture mode with %d threads\n", numThreads);
+            printf("Running using threads. Using %d threads\n", numThreads);
+
+            //allocate the right amount of space for stats
             stats = (struct stat**)malloc(sizeof(struct stat*) * numThreads);
+
+            //allocate each individual stat space
             for (i = 0; i<numThreads; i++) {
                 stats[i] = (struct stat*)malloc(sizeof(struct stat));
             }
@@ -48,51 +55,62 @@ int main(int argc, char** argv) {
             printf("Threaded mode requires number of threads argument 1 < n < 15\n");
             return 0;
         }
-        threadMode = 1; /* threaded */
-        currThread = 0;
+        usingThreads = 1; /* threaded */
+        currentThread = 0;
         oldestThread = 0;
         threads = (pthread_t**)malloc(sizeof(pthread_t *)*numThreads); /* allocating thread pointer array, will allocate/dispatch threads later */
     }
     else {
-        printf("Running in serial architecture mode\n");
+        printf("Running with serial architecture\n");
+        //same as with threads, but not looping through multiple positions
         stats = (struct stat**)malloc(sizeof(struct stat*)); 
         stats[0] = (struct stat*)malloc(sizeof(struct stat));
-        threadMode = 0; /* serial architecture */
+
+        //not using threads, so set that to 0
+        usingThreads = 0;
     }
 
 
     while(1) {
         inputLine = (char *)malloc(sizeof(char) * MAX_LINE_LENGTH);
-        inputStatus = fgets(inputLine, MAX_LINE_LENGTH, stdin); /* grab filename from stdin */
-        if (inputStatus == NULL || inputLine == NULL || inputLine[0] == '\0') { /* reached EOF/error */
+
+        //get input
+        inputInfo = fgets(inputLine, MAX_LINE_LENGTH, stdin);
+        if (inputInfo == NULL || inputLine == NULL || inputLine[0] == '\0') { /* reached EOF/error */
             break;
         }
         char *token = strtok(inputLine, "\n "); /* get rid of trailing spaces/newline */
         
-        struct process *toProcess;
-        toProcess = (struct process*)malloc(sizeof(struct process));
-        toProcess->file = inputLine;
+        struct process *nextProcess;
+        nextProcess = (struct process*)malloc(sizeof(struct process));
+        nextProcess->file = inputLine;
 
-        if (!threadMode) { /* serial architecture */
-            toProcess->stats = stats[0];
-            processFile(toProcess);
+        //if using serial architecture, just run normally
+        if (!usingThreads) {
+            nextProcess->stats = stats[0];
+            processFile(nextProcess);
         }
 
-        else if (threadMode) {
-            if (currThread < numThreads) { /* make/dispatch new worker thread */
-                threads[currThread] = (pthread_t *)malloc(sizeof(pthread_t));
-                toProcess->stats = stats[currThread];
-                pthread_create(threads[currThread], NULL, processFile, (void *)toProcess);
-                currThread++;
-            }
-            else { /* join on the oldest thread then re-make/dispatch */
-                pthread_join(*(threads[oldestThread]), NULL);
-                toProcess->stats = stats[oldestThread];
-                pthread_create(threads[oldestThread], NULL, processFile, (void *)toProcess);
+        //when we are using threads
+        else if (usingThreads) {
 
-                /* update oldest thread */
+            //make first thread
+            if (currentThread < numThreads) {
+                threads[currentThread] = (pthread_t *)malloc(sizeof(pthread_t));
+                nextProcess->stats = stats[currentThread];
+                pthread_create(threads[currentThread], NULL, processFile, (void *)nextProcess);
+                currentThread++;
+            }
+
+            //join oldest, then remake accordingly
+            else {
+                pthread_join(*(threads[oldestThread]), NULL);
+                nextProcess->stats = stats[oldestThread];
+                pthread_create(threads[oldestThread], NULL, processFile, (void *)nextProcess);
+
+                //update oldest
                 if (oldestThread == numThreads -1 ) {
-                    oldestThread = 0; /* loop back around */
+                    oldestThread = 0;
                 }
                 else {
                     oldestThread++;
@@ -101,13 +119,16 @@ int main(int argc, char** argv) {
             }
         }
     }
-    /* wait for all threads to finish jobs*/
-    if (threadMode) {
+    
+    //finish everything before moving on
+    if (usingThreads) {
+
+        //join all the threads together
         for (i = 0; i< numThreads; i++) {
             pthread_join(*(threads[i]), NULL);
         }
     }
-    /* display file results */
+
     printStats();
 
 
@@ -115,9 +136,9 @@ int main(int argc, char** argv) {
 }
 
 void *processFile(void *processPointer) {
-    struct process *toProcess = (struct process *)processPointer;
-    char *file = toProcess->file;
-    struct stat *stats = toProcess->stats;
+    struct process *nextProcess = (struct process *)processPointer;
+    char *file = nextProcess->file;
+    struct stat *stats = nextProcess->stats;
 
     char current[1];
     int statRet;
@@ -130,8 +151,7 @@ void *processFile(void *processPointer) {
         pthread_mutex_lock(&mutex);
         totBadFiles++;
         pthread_mutex_unlock(&mutex);
-        //pthread_exit(NULL);
-	return (void*) 0;
+	    return (void*) 0;
     }
 
     //directory
@@ -166,7 +186,7 @@ void *processFile(void *processPointer) {
         if (isprint(current[0]) || isspace(current[0])) {
             txtBytes++;
         }
-        else { /* file wasn't entirely readable, return 0 */
+        else { //not readable txt file
             txtBytes = 0;
             break;
         }
@@ -177,7 +197,7 @@ void *processFile(void *processPointer) {
         totTxtFiles++;
         pthread_mutex_unlock(&mutex);
     }
-    //pthread_exit(NULL);
+
     return (void*)0;
 }
 
@@ -190,7 +210,7 @@ void setup() {
     totTxtFiles = 0;
     totTxtBytes = 0;
     if (pthread_mutex_init(&mutex, NULL) < 0) {
-        perror("failed init mutex");
+        perror("init mutex error");
         exit(1);
     }
 }
@@ -200,7 +220,7 @@ void printStats(){
     printf("Directories: %ld\n", totDirs);
     printf("Regular Files: %ld\n", totRegFiles);
     printf("Special Files: %ld\n", totSpecFiles);
-    printf("Regular File Bytes: %ld\n", totRegBytes);
+    printf("Bytes in Regular Files: %ld\n", totRegBytes);
     printf("Text Files: %ld\n", totTxtFiles);
-    printf("Text File Bytes: %ld\n", totTxtBytes);
+    printf("Bytes in Text Files: %ld\n", totTxtBytes);
 }
