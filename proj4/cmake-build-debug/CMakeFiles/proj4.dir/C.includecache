@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/harrisonburack/Documents/@WPI/2019-2020/A-Term/CS3013_OperatingSystems/proj4/proj4.c
+stdlib.h
+-
+stdio.h
+-
+pthread.h
+-
+semaphore.h
+-
+unistd.h
+-
+string.h
+-
+sys/stat.h
+-
+sys/types.h
+-
+sys/time.h
+-
+sys/resource.h
+-
+ctype.h
+-
+errno.h
+-
+fcntl.h
+-
+proj4.h
+/Users/harrisonburack/Documents/@WPI/2019-2020/A-Term/CS3013_OperatingSystems/proj4/proj4.h
+
+/Users/harrisonburack/Documents/@WPI/2019-2020/A-Term/CS3013_OperatingSystems/proj4/proj4.h
+

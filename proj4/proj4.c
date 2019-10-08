@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
         oldestThread = 0;
 
         //making threads
-        threads = (pthread_t**)malloc(sizeof(pthread_t *)*numThreads);
+        threads = (pthread_t**)malloc(sizeof(pthread_t *) * numThreads);
     }
     else {
         printf("Running with serial architecture\n");
@@ -81,6 +81,11 @@ int main(int argc, char** argv) {
         }
         if(inputLine == NULL){
             YEET;
+        }
+
+        if(inputLine[0] == '\n'){
+            printf("New Line\n");
+            continue;
         }
 
         if(inputLine[0] == '\0'){

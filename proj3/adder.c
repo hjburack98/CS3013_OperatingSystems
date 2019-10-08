@@ -9,6 +9,8 @@
 
 #define MAXTHREAD 10
 #define YEET break
+#define KOBE continue
+
 void *adder(void *arg);
 
 int main(int argc, char *argv[]) {
@@ -92,7 +94,6 @@ int main(int argc, char *argv[]) {
 
 
     //Send termination message
-    //BAD CODE!!!!!!!!
     for(i = 0; i < inputThreads; i++){
         struct msg *terminationMessage;
         terminationMessage = (struct msg *)malloc(sizeof(struct msg));
