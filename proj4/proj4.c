@@ -118,10 +118,14 @@ void *process_file(void *file) {
     struct file *fileToRun = (struct fileProcess *)file;
     char *file = fileToRun->name;
     struct stat *stats = fileToRun->stats;
-    char currentChar[1];
+
+    char current[1];
     int returnStats;
-    int input, count;
+    int openFile;
+    int count;
     int txtBytes;
+
+    //get stats
     returnStats = stat(file, stats);
 
     //is a bad file
@@ -155,14 +159,14 @@ void *process_file(void *file) {
     }
 
     //couldn't open file
-    if ((input = open(file, O_RDONLY)) < 0) { 
+    if ((openFile = open(file, O_RDONLY)) < 0) { 
 	    return (void*) 0;
     }
 
     //if txt file
     txtBytes = 0;
-    while ((count = read(input, currentChar, 1)) > 0) {
-        if (isprint(currentChar[0]) || isspace(currentChar[0])) {
+    while ((count = read(openFile, current, 1)) > 0) {
+        if (isprint(current[0]) || isspace(current[0])) {
             txtBytes++;
         }
         else {
