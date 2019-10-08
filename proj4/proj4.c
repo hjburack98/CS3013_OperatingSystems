@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
 }
 
 void *getStats(void *file) {
-    struct file *fileToRun = (struct fileProcess *)file;
+    struct file *fileToRun = (struct file *)file;
     char *name = fileToRun->name;
     struct stat *stats = fileToRun->stats;
 
