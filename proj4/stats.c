@@ -55,7 +55,7 @@ int main(int argc, char** argv){
 
         //process file
         fileToUse->stats = buffer[0];
-        getStats(fileToUse);
+        getStats((void *)fileToUse);
     }
 
 
