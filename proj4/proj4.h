@@ -16,7 +16,7 @@ pthread_mutex_t mutex;
 
 struct process {
     char *file;
-    struct stat *buffer;
+    struct stat *stats;
 };
 
 void* processFile(void *processPointer);

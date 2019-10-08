@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     int statRet, i;
     char* inputStatus;
     char* inputLine;
-    struct stat **buffer;
+    struct stat **stats;
     pthread_t **threads;
     struct timeval start, end; /* keep track of time */
     struct rusage usage;
@@ -39,9 +39,9 @@ int main(int argc, char** argv) {
         if (argc > 2 && (atoi(argv[2]) <= MAX_NUM_THREADS) && (atoi(argv[2]) >= 1)) {
             numThreads = atoi(argv[2]);
             printf("Running in threaded architecture mode with %d threads\n", numThreads);
-            buffer = (struct stat**)malloc(sizeof(struct stat*) * numThreads);
+            stats = (struct stat**)malloc(sizeof(struct stat*) * numThreads);
             for (i = 0; i<numThreads; i++) {
-                buffer[i] = (struct stat*)malloc(sizeof(struct stat));
+                stats[i] = (struct stat*)malloc(sizeof(struct stat));
             }
         }
         else {
@@ -55,8 +55,8 @@ int main(int argc, char** argv) {
     }
     else {
         printf("Running in serial architecture mode\n");
-        buffer = (struct stat**)malloc(sizeof(struct stat*)); 
-        buffer[0] = (struct stat*)malloc(sizeof(struct stat));
+        stats = (struct stat**)malloc(sizeof(struct stat*)); 
+        stats[0] = (struct stat*)malloc(sizeof(struct stat));
         threadMode = 0; /* serial architecture */
     }
 
@@ -74,23 +74,20 @@ int main(int argc, char** argv) {
         toProcess->file = inputLine;
 
         if (!threadMode) { /* serial architecture */
-            toProcess->buffer = buffer[0];
+            toProcess->stats = stats[0];
             processFile(toProcess);
         }
 
         else if (threadMode) {
             if (currThread < numThreads) { /* make/dispatch new worker thread */
                 threads[currThread] = (pthread_t *)malloc(sizeof(pthread_t));
-                toProcess->buffer = buffer[currThread];
-               // printf("Dispatching thread %d on file %s\n", currThread, toProcess->file);
+                toProcess->stats = stats[currThread];
                 pthread_create(threads[currThread], NULL, processFile, (void *)toProcess);
                 currThread++;
             }
             else { /* join on the oldest thread then re-make/dispatch */
-               // printf("Joining threads on oldest thread, index %d\n", oldestThread);
                 pthread_join(*(threads[oldestThread]), NULL);
-                toProcess->buffer = buffer[oldestThread];
-                //printf("Dispatching thread %d on file %s\n", oldestThread, toProcess->file);
+                toProcess->stats = stats[oldestThread];
                 pthread_create(threads[oldestThread], NULL, processFile, (void *)toProcess);
 
                 /* update oldest thread */
@@ -120,13 +117,13 @@ int main(int argc, char** argv) {
 void *processFile(void *processPointer) {
     struct process *toProcess = (struct process *)processPointer;
     char *file = toProcess->file;
-    struct stat *buffer = toProcess->buffer;
+    struct stat *stats = toProcess->stats;
 
     char current[1];
     int statRet;
     int fdIn, cnt;
     int txtBytes;
-    statRet = stat(file, buffer);
+    statRet = stat(file, stats);
 
     //bad file
     if (statRet < 0) {
@@ -138,22 +135,22 @@ void *processFile(void *processPointer) {
     }
 
     //directory
-    if (S_ISDIR(buffer->st_mode)) {
+    if (S_ISDIR(stats->st_mode)) {
         pthread_mutex_lock(&mutex);
         totDirs++;
         pthread_mutex_unlock(&mutex);
     }
 
     //regular file
-    if (S_ISREG(buffer->st_mode)) {
+    if (S_ISREG(stats->st_mode)) {
         pthread_mutex_lock(&mutex);
         totRegFiles++;
-        totRegBytes = totRegBytes + buffer->st_size;
+        totRegBytes = totRegBytes + stats->st_size;
         pthread_mutex_unlock(&mutex);
     }
 
     //special file
-    else if (!(S_ISDIR(buffer->st_mode)) && !(S_ISREG(buffer->st_mode))) {
+    else if (!(S_ISDIR(stats->st_mode)) && !(S_ISREG(stats->st_mode))) {
         pthread_mutex_lock(&mutex);
         totSpecFiles++;
         pthread_mutex_unlock(&mutex);
