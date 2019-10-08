@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
 
         if (!threadMode) { /* serial architecture */
             toProcess->buf = buf[0];
-            process_file(toProcess);
+            processFile(toProcess);
         }
 
         else if (threadMode) {
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
                 threads[currThread] = (pthread_t *)malloc(sizeof(pthread_t));
                 toProcess->buf = buf[currThread];
                // printf("Dispatching thread %d on file %s\n", currThread, toProcess->file);
-                pthread_create(threads[currThread], NULL, process_file, (void *)toProcess);
+                pthread_create(threads[currThread], NULL, processFile, (void *)toProcess);
                 currThread++;
             }
             else { /* join on the oldest thread then re-make/dispatch */
@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
                 pthread_join(*(threads[oldestThread]), NULL);
                 toProcess->buf = buf[oldestThread];
                 //printf("Dispatching thread %d on file %s\n", oldestThread, toProcess->file);
-                pthread_create(threads[oldestThread], NULL, process_file, (void *)toProcess);
+                pthread_create(threads[oldestThread], NULL, processFile, (void *)toProcess);
 
                 /* update oldest thread */
                 if (oldestThread == numThreads -1 ) {
@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-void *process_file(void *processPointer) {
+void *processFile(void *processPointer) {
     struct process *toProcess = (struct process *)processPointer;
     char *file = toProcess->file;
     struct stat *buf = toProcess->buf;
