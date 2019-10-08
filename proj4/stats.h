@@ -19,7 +19,7 @@ int totTxtBytes;
 //functions
 void setup();
 void printStats();
-void* processFile(void *processPointer);
+void* getStats(void *file);
 
 struct file{ 
     char* name;

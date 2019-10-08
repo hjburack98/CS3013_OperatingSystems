@@ -13,88 +13,87 @@
 #include <fcntl.h>
 #include "proj4.h"
 
-#define MAX_LINE_LENGTH 128
+#define MAX_LINE_LENGTH 256
 #define MAX_NUM_THREADS 15
+#define YEET break
 
 int main(int argc, char** argv) {
-    int threadMode; /* whether or not we are in threaded or serial mode */
-    int numThreads; /* user-specified number of threads */
-    int currThread; /* how many threads are currently running */
-    int oldestThread; /* oldest running thread */
-    int statRet, i;
+    int usingThreads; //determine if we are using threads or not
+    int numThreads; //number of threads to make
+    int currentThread; //threads currently running
+    int oldestThread;
+    int resultStats, i;
     char* inputStatus;
     char* inputLine;
-    struct stat **buf;
+    struct stat **buffer;
     pthread_t **threads;
-    struct timeval start, end; /* keep track of time */
-    struct rusage usage;
 
-    gettimeofday(&start, 0);
-    getrusage(RUSAGE_SELF, &usage);
-
-    init_globals();
+    setup();
 
     if (argc > 1 && strcmp(argv[1], "thread") == 0) {
         if (argc > 2 && (atoi(argv[2]) <= MAX_NUM_THREADS) && (atoi(argv[2]) >= 1)) {
             numThreads = atoi(argv[2]);
             printf("Running in threaded architecture mode with %d threads\n", numThreads);
-            buf = (struct stat**)malloc(sizeof(struct stat*) * numThreads);
+            buffer = (struct stat**)malloc(sizeof(struct stat*) * numThreads);
             for (i = 0; i<numThreads; i++) {
-                buf[i] = (struct stat*)malloc(sizeof(struct stat));
+                buffer[i] = (struct stat*)malloc(sizeof(struct stat));
             }
         }
         else {
             printf("Threaded mode requires number of threads argument 1 < n < 15\n");
             return 0;
         }
-        threadMode = 1; /* threaded */
-        currThread = 0;
+        usingThreads = 1;
+        currentThread = 0;
         oldestThread = 0;
-        threads = (pthread_t**)malloc(sizeof(pthread_t *)*numThreads); /* allocating thread pointer array, will allocate/dispatch threads later */
+        threads = (pthread_t**)malloc(sizeof(pthread_t *)*numThreads);
     }
     else {
         printf("Running in serial architecture mode\n");
-        buf = (struct stat**)malloc(sizeof(struct stat*)); 
-        buf[0] = (struct stat*)malloc(sizeof(struct stat));
-        threadMode = 0; /* serial architecture */
+        buffer = (struct stat**)malloc(sizeof(struct stat*)); 
+        buffer[0] = (struct stat*)malloc(sizeof(struct stat));
+        usingThreads = 0; /* serial architecture */
     }
 
 
     while(1) {
         inputLine = (char *)malloc(sizeof(char) * MAX_LINE_LENGTH);
-        inputStatus = fgets(inputLine, MAX_LINE_LENGTH, stdin); /* grab filename from stdin */
-        if (inputStatus == NULL || inputLine == NULL || inputLine[0] == '\0') { /* reached EOF/error */
-            break;
+        inputStatus = fgets(inputLine, MAX_LINE_LENGTH, stdin); //get name
+        if (inputStatus == NULL){
+            YEET;
         }
-        char *token = strtok(inputLine, "\n "); /* get rid of trailing spaces/newline */
+        if(inputLine == NULL){
+            YEET;
+        }
+        if(inputLine[0] == '\0') { //EOF
+            YEET;
+        }
+        char *token = strtok(inputLine, "\n "); //remove new line and trialing spaces
         
-        struct fileProcess *toProcess;
-        toProcess = (struct fileProcess*)malloc(sizeof(struct fileProcess));
-        toProcess->file = inputLine;
+        struct file *fileToRun;
+        fileToRun = (struct fileProcess*)malloc(sizeof(struct file));
+        fileToRun->name = inputLine;
 
-        if (!threadMode) { /* serial architecture */
-            toProcess->buf = buf[0];
-            process_file(toProcess);
+        if (!usingThreads) { 
+            fileToRun->stats = buffer[0];
+            process_file(fileToRun);
         }
 
-        else if (threadMode) {
-            if (currThread < numThreads) { /* make/dispatch new worker thread */
-                threads[currThread] = (pthread_t *)malloc(sizeof(pthread_t));
-                toProcess->buf = buf[currThread];
+        else if (usingThreads) {
+            if (currentThread < numThreads) { /* make/dispatch new worker thread */
+                threads[currentThread] = (pthread_t *)malloc(sizeof(pthread_t));
+                fileToRun->stats = buffer[currentThread];
                // printf("Dispatching thread %d on file %s\n", currThread, toProcess->file);
-                pthread_create(threads[currThread], NULL, process_file, (void *)toProcess);
-                currThread++;
+                pthread_create(threads[currentThread], NULL, process_file, (void *)fileToRun);
+                currentThread++;
             }
-            else { /* join on the oldest thread then re-make/dispatch */
-               // printf("Joining threads on oldest thread, index %d\n", oldestThread);
+            else {
                 pthread_join(*(threads[oldestThread]), NULL);
-                toProcess->buf = buf[oldestThread];
-                //printf("Dispatching thread %d on file %s\n", oldestThread, toProcess->file);
-                pthread_create(threads[oldestThread], NULL, process_file, (void *)toProcess);
+                fileToRun->stats = buffer[oldestThread];
+                pthread_create(threads[oldestThread], NULL, process_file, (void *)fileToRun);
 
-                /* update oldest thread */
                 if (oldestThread == numThreads -1 ) {
-                    oldestThread = 0; /* loop back around */
+                    oldestThread = 0;
                 }
                 else {
                     oldestThread++;
@@ -103,106 +102,104 @@ int main(int argc, char** argv) {
             }
         }
     }
-    /* wait for all threads to finish jobs*/
-    if (threadMode) {
+
+    if (usingThreads) {
         for (i = 0; i< numThreads; i++) {
             pthread_join(*(threads[i]), NULL);
         }
     }
-    /* display file results */
-    print_results();
-
-    /* get and print time info */
-    getrusage(RUSAGE_SELF, &usage);
-    gettimeofday(&end, 0);
-    double clock_elapsed = ((end.tv_sec - start.tv_sec)*1000) + ((double)(end.tv_usec - start.tv_usec))/1000;
-    double user_elapsed = ((usage.ru_utime.tv_sec)*1000) + ((double)(usage.ru_utime.tv_usec))/1000;
-    double system_elapsed = ((usage.ru_stime.tv_sec)*1000) + ((double)(usage.ru_stime.tv_usec))/1000;
-    printf("System Time (ms): %f\nUser Time (ms): %f\nWall-Clock Time (ms): %f\n", system_elapsed, user_elapsed, clock_elapsed);
+    
+    printStats();
 
     return 0;
 }
 
-void *process_file(void *processPointer) {
-    struct fileProcess *toProcess = (struct fileProcess *)processPointer;
-    char *file = toProcess->file;
-    struct stat *buf = toProcess->buf;
-    //printf("Processing file %s\n", file);
-    char currChar[1];
-    int statRet;
-    int fdIn, cnt;
-    int byteCount;
-    statRet = stat(file, buf);
+void *process_file(void *file) {
+    struct file *fileToRun = (struct fileProcess *)file;
+    char *file = fileToRun->name;
+    struct stat *stats = fileToRun->stats;
+    char currentChar[1];
+    int returnStats;
+    int input, count;
+    int txtBytes;
+    returnStats = stat(file, stats);
 
-    if (statRet < 0) { /* bad file */
+    //is a bad file
+    if (returnStats < 0) { 
         pthread_mutex_lock(&mutex);
-        totalBadFiles++;
+        totBadFiles++;
         pthread_mutex_unlock(&mutex);
-        //pthread_exit(NULL);
-	return (void*)0;
+	    return (void*) 0;
     }
-    if (S_ISDIR(buf->st_mode)) {
+
+    //is a directory
+    if (S_ISDIR(stats->st_mode)) {
         pthread_mutex_lock(&mutex);
-        totalDirectories++;
-        pthread_mutex_unlock(&mutex);
-    }
-    if (S_ISREG(buf->st_mode)) {
-        pthread_mutex_lock(&mutex);
-        totalRegFiles++;
-        totalRegBytes = totalRegBytes + buf->st_size;
+        totDirs++;
         pthread_mutex_unlock(&mutex);
     }
-    else if (!(S_ISDIR(buf->st_mode)) && !(S_ISREG(buf->st_mode))) {
+
+    //is a regular file
+    if (S_ISREG(stats->st_mode)) {
         pthread_mutex_lock(&mutex);
-        totalSpecFiles++;
+        totRegFiles++;
+        totRegBytes = totRegBytes + stats->st_size;
         pthread_mutex_unlock(&mutex);
     }
-    if ((fdIn = open(file, O_RDONLY)) < 0) { /* couldn't open, not a text file */
-        
-       // pthread_exit(NULL);
-	return (void*)0;
+
+    //is a special file
+    else if (!(S_ISDIR(stats->st_mode)) && !(S_ISREG(stats->st_mode))) {
+        pthread_mutex_lock(&mutex);
+        totSpecFiles++;
+        pthread_mutex_unlock(&mutex);
     }
-    
-    byteCount = 0;
-    while ((cnt = read(fdIn, currChar, 1)) > 0) {
-        if (isprint(currChar[0]) || isspace(currChar[0])) {
-            byteCount++;
+
+    //couldn't open file
+    if ((input = open(file, O_RDONLY)) < 0) { 
+	    return (void*) 0;
+    }
+
+    //if txt file
+    txtBytes = 0;
+    while ((count = read(input, currentChar, 1)) > 0) {
+        if (isprint(currentChar[0]) || isspace(currentChar[0])) {
+            txtBytes++;
         }
-        else { /* file wasn't entirely readable, return 0 */
-            byteCount = 0;
-            break;
+        else {
+            txtBytes = 0;
+            YEET;
         }
     }
-    if (byteCount > 0) {
+    if (txtBytes > 0) {
         pthread_mutex_lock(&mutex);
-        totalTxtBytes = totalTxtBytes + byteCount;
-        totalTxtFiles++;
+        totTxtBytes = totTxtBytes + txtBytes;
+        totTxtFiles++;
         pthread_mutex_unlock(&mutex);
     }
-    //pthread_exit(NULL);
-    return (void*)0;
+
+    return (void*) 0;
 }
 
-void init_globals() {
-    totalBadFiles = 0;
-    totalDirectories = 0;
-    totalRegFiles = 0;
-    totalSpecFiles = 0;
-    totalRegBytes = 0;
-    totalTxtFiles = 0;
-    totalTxtBytes = 0;
+void setup() {
+    totBadFiles = 0;
+    totDirs = 0;
+    totRegFiles = 0;
+    totSpecFiles = 0;
+    totRegBytes = 0;
+    totTxtFiles = 0;
+    totTxtBytes = 0;
     if (pthread_mutex_init(&mutex, NULL) < 0) {
         perror("failed init mutex");
         exit(1);
     }
 }
 
-void print_results(){ 
-    printf("Bad Files: %ld\n", totalBadFiles);
-    printf("Directories: %ld\n", totalDirectories);
-    printf("Regular Files: %ld\n", totalRegFiles);
-    printf("Special Files: %ld\n", totalSpecFiles);
-    printf("Regular File Bytes: %ld\n", totalRegBytes);
-    printf("Text Files: %ld\n", totalTxtFiles);
-    printf("Text File Bytes: %ld\n", totalTxtBytes);
+void printStats(){ 
+    printf("Bad Files: %ld\n", totBadFiles);
+    printf("Directories: %ld\n", totDirs);
+    printf("Regular Files: %ld\n", totRegFiles);
+    printf("Special Files: %ld\n", totSpecFiles);
+    printf("Bytes for Regular Files: %ld\n", totRegBytes);
+    printf("Text Files: %ld\n", totTxtFiles);
+    printf("Bytes for Text File Bytes: %ld\n", totTxtBytes);
 }

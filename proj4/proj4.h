@@ -4,23 +4,23 @@
 #include <pthread.h>
 /* some globals and function prototypes */
 
-long totalBadFiles;
-long totalDirectories;
-long totalRegFiles;
-long totalSpecFiles;
-long totalRegBytes;
-long totalTxtFiles;
-long totalTxtBytes;
+int totBadFiles;
+int totDirs;
+int totRegFiles;
+int totSpecFiles;
+int totRegBytes;
+int totTxtFiles;
+int totTxtBytes;
 
 pthread_mutex_t mutex;
 
-struct fileProcess {
-    char *file;
-    struct stat *buf;
+struct file {
+    char *name;
+    struct stat *stats;
 };
 
-void* process_file(void *processPointer);
-void init_globals(void);
-void print_results(void);
+void setup();
+void printStats();
+void* processFile(void *processPointer);
 
 #endif
