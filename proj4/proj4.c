@@ -14,8 +14,9 @@
 
 #include "proj4.h"
 
-#define MAX_LINE_LENGTH 128
+#define MAX_LINE_LENGTH 256
 #define MAX_NUM_THREADS 15
+#define YEET break
 
 int main(int argc, char** argv) {
     int usingThreads; 
@@ -27,11 +28,7 @@ int main(int argc, char** argv) {
     char* inputLine;
     struct stat **stats;
     pthread_t **threads;
-    struct timeval start, end; /* keep track of time */
-    struct rusage usage;
 
-    gettimeofday(&start, 0);
-    getrusage(RUSAGE_SELF, &usage);
 
     setup();
 
@@ -52,16 +49,19 @@ int main(int argc, char** argv) {
             }
         }
         else {
-            printf("Threaded mode requires number of threads argument 1 < n < 15\n");
+            printf("Can only use between 1 and 15 threads\n");
             return 0;
         }
-        usingThreads = 1; /* threaded */
+        usingThreads = 1; 
         currentThread = 0;
         oldestThread = 0;
-        threads = (pthread_t**)malloc(sizeof(pthread_t *)*numThreads); /* allocating thread pointer array, will allocate/dispatch threads later */
+
+        //making threads
+        threads = (pthread_t**)malloc(sizeof(pthread_t *)*numThreads);
     }
     else {
         printf("Running with serial architecture\n");
+
         //same as with threads, but not looping through multiple positions
         stats = (struct stat**)malloc(sizeof(struct stat*)); 
         stats[0] = (struct stat*)malloc(sizeof(struct stat));
@@ -76,9 +76,17 @@ int main(int argc, char** argv) {
 
         //get input
         inputInfo = fgets(inputLine, MAX_LINE_LENGTH, stdin);
-        if (inputInfo == NULL || inputLine == NULL || inputLine[0] == '\0') { /* reached EOF/error */
-            break;
+        if(inputInfo == NULL){
+            YEET;
         }
+        if(inputLine == NULL){
+            YEET;
+        }
+
+        if(inputLine[0] == '\0'){
+            YEET;
+        }
+
         char *token = strtok(inputLine, "\n "); /* get rid of trailing spaces/newline */
         
         struct process *nextProcess;
@@ -142,7 +150,8 @@ void *processFile(void *processPointer) {
 
     char current[1];
     int statRet;
-    int fdIn, cnt;
+    int fileInput;
+    int canRead;
     int txtBytes;
     statRet = stat(file, stats);
 
@@ -177,16 +186,18 @@ void *processFile(void *processPointer) {
     }
 
     //text file shit
-    if ((fdIn = open(file, O_RDONLY)) < 0) {
+    if ((fileInput = open(file, O_RDONLY)) < 0) {
 	    return (void*) 0;
     }
     
     txtBytes = 0;
-    while ((cnt = read(fdIn, current, 1)) > 0) {
+    while ((canRead = read(fileInput, current, 1)) > 0) {
+
+        //if they are txt characters
         if (isprint(current[0]) || isspace(current[0])) {
             txtBytes++;
         }
-        else { //not readable txt file
+        else { //not readable txt characters
             txtBytes = 0;
             break;
         }
@@ -198,7 +209,7 @@ void *processFile(void *processPointer) {
         pthread_mutex_unlock(&mutex);
     }
 
-    return (void*)0;
+    return (void*) 0;
 }
 
 void setup() {
@@ -209,6 +220,8 @@ void setup() {
     totRegBytes = 0;
     totTxtFiles = 0;
     totTxtBytes = 0;
+
+    //problem with initializing mutex
     if (pthread_mutex_init(&mutex, NULL) < 0) {
         perror("init mutex error");
         exit(1);
