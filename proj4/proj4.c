@@ -54,20 +54,22 @@ int main(int argc, char** argv) {
                 }
 
                 if(inputLine[0] == '\n'){
-                    printf("New Line\n");
                     continue;
                 }
 
                 if(inputLine[0] == '\0'){
                     YEET;
                 }
-
-                numFiles++;
+                else{
+                     numFiles++;
+                }
+               
             }
 
             if(numFiles < numThreads){
                 numThreads = numFiles;
             }
+
             printf("Running using threads. Using %d threads\n", numThreads);
 
             //allocate the right amount of space for stats
