@@ -18,14 +18,14 @@
 #define MAX_NUM_THREADS 15
 
 int main(int argc, char** argv) {
-    int threadMode; /* whether or not we are in threaded or serial mode */
+    int threadMode; 
     int numThreads; /* user-specified number of threads */
     int currThread; /* how many threads are currently running */
     int oldestThread; /* oldest running thread */
     int statRet, i;
     char* inputStatus;
     char* inputLine;
-    struct stat **buf;
+    struct stat **buffer;
     pthread_t **threads;
     struct timeval start, end; /* keep track of time */
     struct rusage usage;
@@ -39,9 +39,9 @@ int main(int argc, char** argv) {
         if (argc > 2 && (atoi(argv[2]) <= MAX_NUM_THREADS) && (atoi(argv[2]) >= 1)) {
             numThreads = atoi(argv[2]);
             printf("Running in threaded architecture mode with %d threads\n", numThreads);
-            buf = (struct stat**)malloc(sizeof(struct stat*) * numThreads);
+            buffer = (struct stat**)malloc(sizeof(struct stat*) * numThreads);
             for (i = 0; i<numThreads; i++) {
-                buf[i] = (struct stat*)malloc(sizeof(struct stat));
+                buffer[i] = (struct stat*)malloc(sizeof(struct stat));
             }
         }
         else {
@@ -55,8 +55,8 @@ int main(int argc, char** argv) {
     }
     else {
         printf("Running in serial architecture mode\n");
-        buf = (struct stat**)malloc(sizeof(struct stat*)); 
-        buf[0] = (struct stat*)malloc(sizeof(struct stat));
+        buffer = (struct stat**)malloc(sizeof(struct stat*)); 
+        buffer[0] = (struct stat*)malloc(sizeof(struct stat));
         threadMode = 0; /* serial architecture */
     }
 
@@ -74,14 +74,14 @@ int main(int argc, char** argv) {
         toProcess->file = inputLine;
 
         if (!threadMode) { /* serial architecture */
-            toProcess->buf = buf[0];
+            toProcess->buffer = buffer[0];
             processFile(toProcess);
         }
 
         else if (threadMode) {
             if (currThread < numThreads) { /* make/dispatch new worker thread */
                 threads[currThread] = (pthread_t *)malloc(sizeof(pthread_t));
-                toProcess->buf = buf[currThread];
+                toProcess->buffer = buffer[currThread];
                // printf("Dispatching thread %d on file %s\n", currThread, toProcess->file);
                 pthread_create(threads[currThread], NULL, processFile, (void *)toProcess);
                 currThread++;
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
             else { /* join on the oldest thread then re-make/dispatch */
                // printf("Joining threads on oldest thread, index %d\n", oldestThread);
                 pthread_join(*(threads[oldestThread]), NULL);
-                toProcess->buf = buf[oldestThread];
+                toProcess->buffer = buffer[oldestThread];
                 //printf("Dispatching thread %d on file %s\n", oldestThread, toProcess->file);
                 pthread_create(threads[oldestThread], NULL, processFile, (void *)toProcess);
 
@@ -113,13 +113,6 @@ int main(int argc, char** argv) {
     /* display file results */
     printStats();
 
-    /* get and print time info */
-    getrusage(RUSAGE_SELF, &usage);
-    gettimeofday(&end, 0);
-    double clock_elapsed = ((end.tv_sec - start.tv_sec)*1000) + ((double)(end.tv_usec - start.tv_usec))/1000;
-    double user_elapsed = ((usage.ru_utime.tv_sec)*1000) + ((double)(usage.ru_utime.tv_usec))/1000;
-    double system_elapsed = ((usage.ru_stime.tv_sec)*1000) + ((double)(usage.ru_stime.tv_usec))/1000;
-    printf("System Time (ms): %f\nUser Time (ms): %f\nWall-Clock Time (ms): %f\n", system_elapsed, user_elapsed, clock_elapsed);
 
     return 0;
 }
@@ -127,56 +120,63 @@ int main(int argc, char** argv) {
 void *processFile(void *processPointer) {
     struct process *toProcess = (struct process *)processPointer;
     char *file = toProcess->file;
-    struct stat *buf = toProcess->buf;
-    //printf("Processing file %s\n", file);
-    char currChar[1];
+    struct stat *buffer = toProcess->buffer;
+
+    char current[1];
     int statRet;
     int fdIn, cnt;
-    int byteCount;
-    statRet = stat(file, buf);
+    int txtBytes;
+    statRet = stat(file, buffer);
 
-    if (statRet < 0) { /* bad file */
+    //bad file
+    if (statRet < 0) {
         pthread_mutex_lock(&mutex);
         totBadFiles++;
         pthread_mutex_unlock(&mutex);
         //pthread_exit(NULL);
-	return (void*)0;
+	return (void*) 0;
     }
-    if (S_ISDIR(buf->st_mode)) {
+
+    //directory
+    if (S_ISDIR(buffer->st_mode)) {
         pthread_mutex_lock(&mutex);
         totDirs++;
         pthread_mutex_unlock(&mutex);
     }
-    if (S_ISREG(buf->st_mode)) {
+
+    //regular file
+    if (S_ISREG(buffer->st_mode)) {
         pthread_mutex_lock(&mutex);
         totRegFiles++;
-        totRegBytes = totRegBytes + buf->st_size;
+        totRegBytes = totRegBytes + buffer->st_size;
         pthread_mutex_unlock(&mutex);
     }
-    else if (!(S_ISDIR(buf->st_mode)) && !(S_ISREG(buf->st_mode))) {
+
+    //special file
+    else if (!(S_ISDIR(buffer->st_mode)) && !(S_ISREG(buffer->st_mode))) {
         pthread_mutex_lock(&mutex);
         totSpecFiles++;
         pthread_mutex_unlock(&mutex);
     }
-    if ((fdIn = open(file, O_RDONLY)) < 0) { /* couldn't open, not a text file */
-        
-       // pthread_exit(NULL);
-	return (void*)0;
+
+    //text file shit
+    if ((fdIn = open(file, O_RDONLY)) < 0) {
+	    return (void*) 0;
     }
     
-    byteCount = 0;
-    while ((cnt = read(fdIn, currChar, 1)) > 0) {
-        if (isprint(currChar[0]) || isspace(currChar[0])) {
-            byteCount++;
+    txtBytes = 0;
+    while ((cnt = read(fdIn, current, 1)) > 0) {
+        if (isprint(current[0]) || isspace(current[0])) {
+            txtBytes++;
         }
         else { /* file wasn't entirely readable, return 0 */
-            byteCount = 0;
+            txtBytes = 0;
             break;
         }
     }
-    if (byteCount > 0) {
+    if (txtBytes > 0) {
         pthread_mutex_lock(&mutex);
-        totTxtBytes = totTxtBytes + byteCount;
+        totTxtBytes = totTxtBytes + txtBytes;
         totTxtFiles++;
         pthread_mutex_unlock(&mutex);
     }
