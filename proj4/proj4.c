@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
     int returnStats, i;
     char* inputInfo;
     char* inputLine;
+    int numFiles = 7;
     struct stat **stats;
     pthread_t **threads;
 
@@ -38,6 +39,35 @@ int main(int argc, char** argv) {
         //error checking 
         if (argc > 2 && (atoi(argv[2]) <= MAX_NUM_THREADS) && (atoi(argv[2]) >= 1)) {
             numThreads = atoi(argv[2]);
+
+            //check to see how many files exist (to make sure you don't make too many threads)
+            while(1){
+                inputLine = (char *)malloc(sizeof(char) * MAX_LINE_LENGTH);
+
+                //get input
+                inputInfo = fgets(inputLine, MAX_LINE_LENGTH, stdin);
+                if(inputInfo == NULL){
+                    YEET;
+                }
+                if(inputLine == NULL){
+                    YEET;
+                }
+
+                if(inputLine[0] == '\n'){
+                    printf("New Line\n");
+                    continue;
+                }
+
+                if(inputLine[0] == '\0'){
+                    YEET;
+                }
+
+                numFiles++;
+            }
+
+            if(numFiles < numThreads){
+                numThreads = numFiles;
+            }
             printf("Running using threads. Using %d threads\n", numThreads);
 
             //allocate the right amount of space for stats
@@ -58,6 +88,7 @@ int main(int argc, char** argv) {
         usingThreads = 1; 
         currentThread = 0;
         oldestThread = 0;
+
 
         //making threads
         threads = (pthread_t**)malloc(sizeof(pthread_t *) * numThreads);
@@ -96,7 +127,7 @@ int main(int argc, char** argv) {
             YEET;
         }
 
-        char *token = strtok(inputLine, "\n "); /* get rid of trailing spaces/newline */
+        char *token = strtok(inputLine, "\n "); 
         
         struct process *nextProcess;
         nextProcess = (struct process*)malloc(sizeof(struct process));
@@ -133,7 +164,7 @@ int main(int argc, char** argv) {
                 else {
                     oldestThread++;
                 }
-                
+
             }
         }
     }
@@ -212,7 +243,7 @@ void *processFile(void *processPointer) {
             break;
         }
     }
-    
+
     if (txtBytes > 0) {
         pthread_mutex_lock(&mutex);
         totTxtBytes = totTxtBytes + txtBytes;
