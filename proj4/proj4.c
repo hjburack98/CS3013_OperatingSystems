@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
         //error checking 
         if (argc > 2 && (atoi(argv[2]) <= MAX_NUM_THREADS) && (atoi(argv[2]) >= 1)) {
-            
+            numThreads = atoi(argv[2]);
             printf("Running using threads. Using %d threads\n", numThreads);
 
             //allocate the right amount of space for stats
