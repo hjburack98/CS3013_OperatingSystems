@@ -1,26 +1,26 @@
 #ifndef SERVER_HEADER
 #define SERVER_HEADER
 
-#include <pthread.h>
 /* some globals and function prototypes */
 
-int totBadFiles;
-int totDirs;
-int totRegFiles;
-int totSpecFiles;
-int totRegBytes;
-int totTxtFiles;
-int totTxtBytes;
+long totBadFiles;
+long totDirs;
+long totRegFiles;
+long totSpecFiles;
+long totRegBytes;
+long totTxtFiles;
+long totTxtBytes;
+
 
 pthread_mutex_t mutex;
 
-struct file {
-    char *name;
-    struct stat *stats;
+struct process {
+    char *file;
+    struct stat *buf;
 };
 
-void setup();
-void printStats();
-void* getStats(void *file);
+void* processFile(void *processPointer);
+void setup(void);
+void printStats(void);
 
 #endif
